@@ -1,0 +1,6 @@
+dependencies:
+- name: backstage
+  repository: https://redhat-developer.github.io/rhdh-chart/
+  version: 3.2.0
+digest: sha256:8c40f82e755110b3ba402325ca96f9c7da888107a1b1598c0db404fde9a7bbe2
+generated: "2025-03-12T18:52:39.457341+05:30"
