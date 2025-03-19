@@ -1,0 +1,5 @@
+{{ required "The ansible.rhaap.baseUrl field must be set." .Values.backstage.upstream.backstage.appConfig.ansible.rhaap.baseUrl }}
+{{ required "The ansible.rhaap.token field must be set." .Values.backstage.upstream.backstage.appConfig.ansible.rhaap.token }}
+{{ required "The auth.providers.rhaap.production.host field must be set." .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.host }}
+{{ required "The auth.providers.rhaap.production.clientId field must be set." .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.clientId }}
+{{ required "The auth.providers.rhaap.production.clientSecret field must be set." .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.clientSecret }}
