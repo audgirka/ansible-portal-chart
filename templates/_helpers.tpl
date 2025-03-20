@@ -2,7 +2,9 @@
     Updates the Quay image tag in dynamic.plugins.package values - development env only
 */}}
 {{- define "portal.quay-image-tag" -}}
-    {{- printf "%s" (.Values.global.imageTagInfo) -}}
+    {{- if .Values.global._environment._development -}}
+        {{- printf "%s" (.Values.global.imageTagInfo) -}}
+    {{- end -}}
 {{- end -}}
 
 {{/*
