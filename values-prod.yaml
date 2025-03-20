@@ -1,0 +1,70 @@
+backstage:
+  global:
+    _environment:
+      _production: true
+    dynamic:
+      plugins:
+      - package: http://plugin-registry:8080/ansible-plugin-backstage-rhaap-dynamic-1.2.0.tgz
+        integrity: sha512-K5zekl0vHEuKbYH97HtW49zRpY24JWICEALOtpQXS0rp3m1dtioe1Dkd0DSekTetJI3QDtSewpX0BKkCED15Ww==
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              ansible.plugin-backstage-rhaap:
+                appIcons:
+                - importName: AnsibleLogo
+                  name: AnsibleLogo
+                dynamicRoutes:
+                - importName: AnsiblePage
+                  menuItem:
+                    icon: AnsibleLogo
+                    text: Ansible
+                  path: /ansible
+      - package: http://plugin-registry:8080/ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic-1.2.0.tgz
+        integrity: sha512-VV4LPqUpRB1zTIfjxVVdZOm0LoM7jlaTNKNwy5NlFnk7kPhaGlVyVdnxo4MSDFgXTAYf+Lx8UwNdNt/+5DO2Wg==
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            backend:
+              ansible.plugin-scaffolder-backend-module-backstage-rhaap: null
+      - package: http://plugin-registry:8080/ansible-plugin-backstage-rhaap-backend-dynamic-1.2.0.tgz
+        integrity: sha512-Ys5AkpCZaSNWt3XP9gK9Ix2cygiIEskpNdgnOTDuFxH/TsSB/3R6oWFQRJy0kjJfm4L497SnDWFiOlPXshn2Ew==
+        disabled: false
+        pluginConfig:
+          dynamicPlugins:
+            backend:
+              ansible.plugin-backstage-rhaap-backend: null
+      - package: http://plugin-registry:8080/ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic-0.1.0.tgz
+        disabled: false
+        integrity: sha512-r+mpqqEFLXj7oRAadizpkhCZZ0wUQ29V8svK4RSK/BNIyv0weWgL78tWvovkpwxScFOT+1RrhHFGOiDnPyWhcg==
+      - package: http://plugin-registry:8080/ansible-backstage-plugin-wizard-catalog-dynamic-0.1.0.tgz
+        disabled: false
+        integrity: sha512-RSfVpprJcpPN1E1PLIFewZSE0EC9B5lcloZVg3NzD55GlHE6MU8UQwuGFdbZ5XO0fzc/JLZg9xnJjOfo/sk29A==
+        pluginConfig:
+          dynamicPlugins:
+            frontend:
+              ansible.backstage-plugin-wizard-catalog:
+                apiFactories:
+                  - importName: AapApi
+                signInPage:
+                    importName: SignInPage
+                providerSettings:
+                - title: AAP
+                  description: Sign in with AAP
+                  provider: ansible.auth.rhaap
+                scaffolderFieldExtensions:
+                  - importName: AAPTokenFieldExtension
+                  - importName: AAPResourcePickerExtension
+                appIcons:
+                  - name: AnsibleLogo
+                    importName: AnsibleLogo
+                dynamicRoutes:
+                  - importName: WizardCatalogPage
+                    menuItem:
+                      icon: AnsibleLogo
+                      text: WizardCatalog
+                    path: /wizard/
+      - package: http://plugin-registry:8080/ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic-0.1.0.tgz
+        disabled: false
+        integrity: sha512-5Lq8mleLOpSNeW7Y44fKm3YzJDOA0yZqtMv2ziGxvcA1QCLGGFgR+bqskdIrMXFThN2qKwl0WVNlfLYHxtn1Zw==
+        pluginConfig: {}

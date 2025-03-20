@@ -1,5 +1,31 @@
-{{ required "The ansible.rhaap.baseUrl field must be set." .Values.backstage.upstream.backstage.appConfig.ansible.rhaap.baseUrl }}
-{{ required "The ansible.rhaap.token field must be set." .Values.backstage.upstream.backstage.appConfig.ansible.rhaap.token }}
-{{ required "The auth.providers.rhaap.production.host field must be set." .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.host }}
-{{ required "The auth.providers.rhaap.production.clientId field must be set." .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.clientId }}
-{{ required "The auth.providers.rhaap.production.clientSecret field must be set." .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.clientSecret }}
+{{/*
+    Validates required values
+*/}}
+
+{{- if not .Values.backstage.upstream.backstage.appConfig.ansible.rhaap.token -}}
+{{- fail "ansible.rhaap.token is required" -}}
+{{- end -}}
+
+{{- if not .Values.backstage.upstream.backstage.appConfig.ansible.rhaap.baseUrl -}}
+{{- fail "ansible.rhaap.token is required" -}}
+{{- end -}}
+
+{{- if not .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.host -}}
+{{- fail "auth.providers.rhaap.production.host" -}}
+{{- end -}}
+
+{{- if not .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.clientId -}}
+{{- fail "auth.providers.rhaap.production.clientId is required" -}}
+{{- end -}}
+
+{{- if not .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.clientSecret -}}
+{{- fail "auth.providers.rhaap.production.clientSecret is required" -}}
+{{- end -}}
+
+{{- if not (or .Values.backstage.global._environment._production .Values.backstage.global._environment._development) -}}
+{{- fail "Either values-prod.yaml or values-dev.yaml must be passed using the --values (or -f) flag" -}}
+{{- end -}}
+
+{{- if and .Values.backstage.global._environment._development (not .Values.backstage.global.imageTagInfo) -}}
+{{- fail "Quay image tag required for development environment: use `--set global.imageTagInfo=<tag>` or update the value in the values-dev.yaml file" -}}
+{{- end -}}
