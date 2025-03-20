@@ -11,7 +11,7 @@
 {{- end -}}
 
 {{- if not .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.host -}}
-{{- fail "auth.providers.rhaap.production.host" -}}
+{{- fail "auth.providers.rhaap.production.host is required" -}}
 {{- end -}}
 
 {{- if not .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.clientId -}}
