@@ -1,0 +1,65 @@
+backstage:
+  global:
+    _environment:
+      _development: true
+    imageTagInfo: # Required: Update here or pass using --set
+    dynamic:
+      plugins:
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-plugin-backstage-rhaap
+          disabled: false
+          pluginConfig:
+            dynamicPlugins:
+              frontend:
+                ansible.plugin-backstage-rhaap:
+                  appIcons:
+                  - importName: AnsibleLogo
+                    name: AnsibleLogo
+                  dynamicRoutes:
+                  - importName: AnsiblePage
+                    menuItem:
+                      icon: AnsibleLogo
+                      text: Ansible
+                    path: /ansible
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic
+          disabled: false
+          pluginConfig:
+            dynamicPlugins:
+              backend:
+                ansible.plugin-scaffolder-backend-module-backstage-rhaap: null
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-plugin-backstage-rhaap-backend-dynamic
+          disabled: false
+          pluginConfig:
+            dynamicPlugins:
+              backend:
+                ansible.plugin-backstage-rhaap-backend: null
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic
+          disabled: false
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-backstage-plugin-wizard-catalog
+          disabled: false
+          pluginConfig:
+            dynamicPlugins:
+              frontend:
+                ansible.backstage-plugin-wizard-catalog:
+                  apiFactories:
+                    - importName: AapApi
+                  signInPage:
+                      importName: SignInPage
+                  providerSettings:
+                  - title: AAP
+                    description: Sign in with AAP
+                    provider: ansible.auth.rhaap
+                  scaffolderFieldExtensions:
+                    - importName: AAPTokenFieldExtension
+                    - importName: AAPResourcePickerExtension
+                  appIcons:
+                    - name: AnsibleLogo
+                      importName: AnsibleLogo
+                  dynamicRoutes:
+                    - importName: WizardCatalogPage
+                      menuItem:
+                        icon: AnsibleLogo
+                        text: WizardCatalog
+                      path: /wizard/
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic
+          disabled: false
+          pluginConfig: {}
