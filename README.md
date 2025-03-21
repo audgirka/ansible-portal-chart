@@ -6,7 +6,7 @@ Add helm reposiotry dependency
 ```
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add backstage https://backstage.github.io/charts
-helm repo add redhat-developer https://redhat-developer.github.io/rhdh-chart
+helm repo add openshift-helm-charts https://charts.openshift.io/
 ```
 
 Clone the repository and download the dependency
