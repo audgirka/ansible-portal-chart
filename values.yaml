@@ -1,8 +1,8 @@
-backstage:
+redhat-developer-hub:
   global:
     clusterRouterBase: "apps.ansible-rhdh-dev.testing.ansible.com"
   upstream:
-    nameOverride: backstage
+    nameOverride: ansible-portal
     backstage:
       extraEnvVars:
         # ---
@@ -96,6 +96,3 @@ backstage:
                 schedule:
                   frequency: { minutes: 1 }
                   timeout: { seconds: 5 }
-imagePullSecret:
-  name: quay-image-pull-secret
-  auth: "changeme"

@@ -2,30 +2,36 @@
     Validates required values
 */}}
 
-{{- if not .Values.backstage.upstream.backstage.appConfig.ansible.rhaap.token -}}
+{{- if not (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "ansible" "rhaap" "token") -}}
 {{- fail "ansible.rhaap.token is required" -}}
 {{- end -}}
 
-{{- if not .Values.backstage.upstream.backstage.appConfig.ansible.rhaap.baseUrl -}}
-{{- fail "ansible.rhaap.token is required" -}}
+{{- if not (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "ansible" "rhaap" "baseUrl") -}}
+{{- fail "ansible.rhaap.baseUrl is required" -}}
 {{- end -}}
 
-{{- if not .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.host -}}
+{{- if not (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "auth" "providers" "rhaap" "production" "host") -}}
 {{- fail "auth.providers.rhaap.production.host is required" -}}
 {{- end -}}
 
-{{- if not .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.clientId -}}
+{{- if not (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "auth" "providers" "rhaap" "production" "clientId") -}}
 {{- fail "auth.providers.rhaap.production.clientId is required" -}}
 {{- end -}}
 
-{{- if not .Values.backstage.upstream.backstage.appConfig.auth.providers.rhaap.production.clientSecret -}}
+{{- if not (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "auth" "providers" "rhaap" "production" "clientSecret") -}}
 {{- fail "auth.providers.rhaap.production.clientSecret is required" -}}
 {{- end -}}
 
-{{- if not (or .Values.backstage.global._environment._production .Values.backstage.global._environment._development) -}}
+{{- if not (or
+    (index .Values "redhat-developer-hub" "global" "_environment" "_production")
+    (index .Values "redhat-developer-hub" "global" "_environment" "_development")
+) -}}
 {{- fail "Either values-prod.yaml or values-dev.yaml must be passed using the --values (or -f) flag" -}}
 {{- end -}}
 
-{{- if and .Values.backstage.global._environment._development (not .Values.backstage.global.imageTagInfo) -}}
+{{- if and
+    (index .Values "redhat-developer-hub" "global" "_environment" "_development")
+    (not (index .Values "redhat-developer-hub" "global" "imageTagInfo"))
+-}}
 {{- fail "Quay image tag required for development environment: use `--set global.imageTagInfo=<tag>` or update the value in the values-dev.yaml file" -}}
 {{- end -}}
