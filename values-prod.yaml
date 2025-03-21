@@ -1,4 +1,4 @@
-backstage:
+redhat-developer-hub:
   global:
     _environment:
       _production: true

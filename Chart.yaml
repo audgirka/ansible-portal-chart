@@ -2,11 +2,11 @@ apiVersion: v2
 name: ansible-portal-chart
 description: A Helm chart for Ansible portal
 dependencies:
-  - name: backstage
-    repository: https://redhat-developer.github.io/rhdh-chart/
+  - name: redhat-developer-hub
+    repository: https://charts.openshift.io
     tags:
-      - rhdh
-    version: "3.2.0"
+      - redhat-developer-hub
+    version: "1.4.2"
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
