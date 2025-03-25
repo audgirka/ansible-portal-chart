@@ -52,6 +52,26 @@ helm repo add redhat-developer-hub https://charts.openshift.io
 helm dependency update
 ```
 
+### Install and log into OpenShift CLI
+
+To deploy the helm chart from your local environment, follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#installing-openshift-cli) for installing OpenShift CLI (`oc`) locally, then follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-logging-in_cli-developer-commands) to log in.
+
+Use the following command to create a new OpenShift project:
+
+```console
+oc new-project <project-name>
+```
+
+Example:
+```console
+oc new-project my-portal-project
+```
+
+Example output:
+```
+Now using project "my-project" on server "https://openshift.example.com:6443".
+```
+
 ### Choose environment
 
 Before installing the chart, determine which environment to use. There are two environments: **development** and **production**. 
@@ -82,10 +102,11 @@ To use the **upstream** plugins, download the plugin .tar and .integrity files f
 
 To use the **downstream** plugins, download the the latest .tar file for the plugins from the [Red Hat Ansible Automation Platform Product Software downloads page](https://access.redhat.com/downloads/content/480/ver=2.5/rhel---9/2.5/x86_64/product-software) to the `DYNAMIC_PLUGIN_ROOT_DIR` path. The format of the filename is ansible-backstage-rhaap-bundle-x.y.z.tar.gz. Substitute the Ansible plugins release version, for example 1.0.0, for x.y.z. Extract the contents inside the directory and run `ls` to ensure the plugin .tar and integrity files are present. 
 
-Next, create an httpd service as part of your OpenShift project.
+(Note: To use locally built plugins in the plugin registry, you will need to update the integrity keys in the values-prod.yaml file to the values in your local plugins' .integrity files. This is not recommended, as the integrity values update every time the plugins are rebuilt. Instead, we recommend following the development section below.)
+
+Next, create an httpd service as part of your OpenShift project. Ensure you're using the correct OpenShift project before deploying the service (verify using `oc projects`).
 
 ```console
-oc project <project-name>
 oc new-build httpd --name=plugin-registry --binary
 oc start-build plugin-registry --from-dir=$DYNAMIC_PLUGIN_ROOT_DIR --wait
 oc new-app --image-stream=plugin-registry
@@ -144,6 +165,8 @@ helm install my-portal <path-to-chart> -f values-prod.yaml
 ## Development Environment
 
 In the development environment, plugin images are pulled from a private Quay repository. This repository stores images built from pull request changes on the [ansible-backstage-plugins repository](https://github.com/ansible/ansible-backstage-plugins/tree/main). 
+
+**Note:** If you would like to test local changes to plugins, open a PR to ansible-backstage-plugins first, then set the `global.imageTagInfo` value to the new Quay image tag built from the PR . See the **"Update values.yaml"** section below for details. 
 
 ### Create secret to access private Quay repository
 
@@ -218,6 +241,8 @@ Example:
 helm install my-portal <path-to-chart> -f values-dev.yaml
 ```
 
+The install name can be any unique name in your project. 
+
 ## Values 
 
 | Key | Description | Type | Default |
@@ -235,5 +260,3 @@ helm install my-portal <path-to-chart> -f values-dev.yaml
 | upstream.backstage.image.registry | Registry to pull the RHDH image from. | string | `quay.io` |
 | upstream.backstage.image.repository | Repository to pull the RHDH image from. | string | `rhdh/rhdh-hub-rhel9` |
 | upstream.backstage.image.repository | RHDH image tag. | string | `1.5` |
-
-
