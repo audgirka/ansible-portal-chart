@@ -271,8 +271,8 @@ To make this chart work properly, update the placeholder values in values.yaml.
      ```yaml
      # values.yaml
        extraEnvVars:
-            - name: NODE_TLS_REJECT_UNAUTHORIZED
-              value: '0'
+          - name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: '0'
      ```
 
 
