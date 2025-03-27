@@ -98,12 +98,6 @@ Set an environment variable `DYNAMIC_PLUGIN_ROOT_DIR` to represent the directory
 export DYNAMIC_PLUGIN_ROOT_DIR=/path/to/<ansible-backstage-plugins-local-dir-changeme>
 ```
 
-Verify the variable is set correctly.
-
-```console
-echo $DYNAMIC_PLUGIN_ROOT_DIR
-```
-
 To use the **upstream** plugins, download the plugin .tar and .integrity files from the [ansible-backstage-plugins repo's GitHub release page](https://github.com/ansible/ansible-backstage-plugins/releases) to the `DYNAMIC_PLUGIN_ROOT_DIR` path.
 
 To use the **downstream** plugins, download the the latest .tar file for the plugins from the [Red Hat Ansible Automation Platform Product Software downloads page](https://access.redhat.com/downloads/content/480/ver=2.5/rhel---9/2.5/x86_64/product-software) to the `DYNAMIC_PLUGIN_ROOT_DIR` path. The format of the filename is ansible-backstage-rhaap-bundle-x.y.z.tar.gz. Substitute the Ansible plugins release version, for example 1.0.0, for x.y.z. Extract the contents inside the directory and run `ls` to ensure the plugin .tar and integrity files are present.
@@ -155,7 +149,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
                   clientSecret: "changeme"
      ```
 
--  Under the `appConfig.integrations` section, update the github and gitlab `token` values from "changeme" to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations)
+-  Under the `appConfig.integrations` section, update the github and gitlab `token` values from "changeme" to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
 
      ```yaml
      # values.yaml
@@ -241,7 +235,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
                   clientSecret: "changeme"
      ```
 
--  Under the `appConfig.integrations` section, update the github and gitlab `token` values from "changeme" to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations)
+-  Under the `appConfig.integrations` section, update the github and gitlab `token` values from "changeme" to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
 
      ```yaml
      # values.yaml
