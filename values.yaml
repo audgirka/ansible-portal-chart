@@ -96,3 +96,10 @@ redhat-developer-hub:
                 schedule:
                   frequency: { minutes: 1 }
                   timeout: { seconds: 5 }
+        integrations:
+          github:
+            - host: github.com
+              token: "changeme"
+          gitlab:
+            - host: gitlab.com
+              token: "changeme"
