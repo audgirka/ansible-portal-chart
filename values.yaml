@@ -1,6 +1,10 @@
 redhat-developer-hub:
+  nameOverride: ansible-portal
   global:
     clusterRouterBase: "apps.ansible-rhdh-dev.testing.ansible.com"
+    _environment:
+      _development: false
+      _production: false
   upstream:
     nameOverride: ansible-portal
     backstage:
