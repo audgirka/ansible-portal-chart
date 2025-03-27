@@ -210,7 +210,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
        clusterRouterBase: apps.example.com
      ```
 
-- Under the `appConfig.ansible` section, update the `rhaap`, `baseUrl` and `token` values from "changeme" to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
+- Under the `appConfig.ansible` section, update the `rhaap`, `baseUrl` and `token` values from "changeme" to the IP address or URL of your AAP instance, and an authentication token from the AAP instance. 
 
      ```yaml
      # values.yaml
@@ -221,6 +221,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
               baseUrl: "changeme"  # in the form https://<ip-or-url-to-AAP-instance>
               token: "changeme"
      ```
+
 -  Under the `appConfig.auth.providers.rhaap.production` section, update the `host`, `clientId`, and `clientSecret` values from "changeme" to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
 
      ```yaml
@@ -255,6 +256,25 @@ To make this chart work properly, update the placeholder values in values.yaml.
       global:
         imageTagInfo: # Required: Update here or pass using --set
      ```
+
+- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible` section, update the `checkSSL` value from `true` to `false`. Also, under `extraEnvVars` you can add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. 
+
+     ```yaml
+     # values.yaml
+       appConfig:
+          enableExperimentalRedirectFlow: true
+          ansible:
+            rhaap:
+              checkSSL: true
+     ```
+
+     ```yaml
+     # values.yaml
+       extraEnvVars:
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: '0'
+     ```
+
 
 ### Install the chart
 

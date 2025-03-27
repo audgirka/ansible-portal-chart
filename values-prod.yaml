@@ -44,10 +44,8 @@ redhat-developer-hub:
           dynamicPlugins:
             frontend:
               ansible.backstage-plugin-wizard-catalog:
-                apiFactories:
-                  - importName: AapApi
                 signInPage:
-                    importName: SignInPage
+                  importName: SignInPage
                 providerSettings:
                 - title: AAP
                   description: Sign in with AAP
