@@ -210,7 +210,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
        clusterRouterBase: apps.example.com
      ```
 
-- Under the `appConfig.ansible` section, update the `rhaap`, `baseUrl` and `token` values from "changeme" to the IP address or URL of your AAP instance, and an authentication token from the AAP instance. 
+- Under the `appConfig.ansible` section, update the `rhaap`, `baseUrl` and `token` values from "changeme" to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
 
      ```yaml
      # values.yaml
@@ -257,7 +257,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
         imageTagInfo: # Required: Update here or pass using --set
      ```
 
-- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible` section, update the `checkSSL` value from `true` to `false`. Also, under `extraEnvVars` you can add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. 
+- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible` section, update the `checkSSL` value from `true` to `false`. Also, under `extraEnvVars` you can add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`.
 
      ```yaml
      # values.yaml
@@ -274,7 +274,6 @@ To make this chart work properly, update the placeholder values in values.yaml.
           - name: NODE_TLS_REJECT_UNAUTHORIZED
             value: '0'
      ```
-
 
 ### Install the chart
 
