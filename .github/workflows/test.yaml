@@ -42,3 +42,113 @@ jobs:
         uses: azure/setup-helm@5119fcb9089d432beecbf79bb2c7915207344b78
         with:
           version: v3.10.0
+
+      - name: Set up Python
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
+        with:
+          python-version: 3.13
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@0d28d3144d3a25ea2cc349d6e59901c4ff469b3b # v2.7.0
+
+      - name: Add dependencies
+        run: |
+          helm repo add ingress-nginx "https://kubernetes.github.io/ingress-nginx"
+          helm repo add redhat-developer-hub "https://charts.openshift.io"
+          helm repo update
+          helm dependency update
+
+      - name: Lint chart
+        run: |
+          ct lint \
+            --charts . \
+            --config ct.yaml \
+            --debug \
+            --target-branch "${{ github.event.pull_request.base.ref }}"
+      - name: Generate KinD Config
+        run: |
+          cat <<EOF > /tmp/kind-config.yaml
+          apiVersion: kind.x-k8s.io/v1alpha4
+          kind: Cluster
+          nodes:
+            - role: control-plane
+              extraPortMappings:
+                - containerPort: 80
+                  hostPort: 80
+                  protocol: TCP
+                - containerPort: 443
+                  hostPort: 443
+                  protocol: TCP
+          EOF
+
+      - name: Create KIND Cluster
+        uses: helm/kind-action@a1b0e391336a6ee6713a0583f8c6240d70863de3 # v1.12.0
+        with:
+          config: /tmp/kind-config.yaml
+
+      - name: Create custom storage class
+        run: |
+          export defaultScProvisioner=$(kubectl get storageclass -o jsonpath='{.items[?(@.metadata.annotations.storageclass\.kubernetes\.io/is-default-class=="true")].provisioner}')
+          if [[ -z "$defaultScProvisioner" ]]; then
+            echo "No default storage class found or it has no provisioner. Exiting early because the test using the custom Storage Class will likely fail. Use a cluster that has a default storage class."
+            exit 1
+          fi
+          echo "[INFO] defaultScProvisioner=$defaultScProvisioner"
+
+          cat <<EOF | kubectl apply -f -
+          apiVersion: storage.k8s.io/v1
+          kind: StorageClass
+          metadata:
+            name: custom-sc
+          # same provisioner as the one used by the default storage class on the cluster
+          provisioner: $defaultScProvisioner
+          reclaimPolicy: Delete
+          volumeBindingMode: WaitForFirstConsumer
+          EOF
+
+          kubectl get storageclass custom-sc -o yaml
+
+      - name: Install Ingress Controller
+        run: |
+          helm install ingress-nginx/ingress-nginx --generate-name \
+            --set controller.service.type='NodePort' \
+            --set controller.admissionWebhooks.enabled=false
+
+      - name: Install Operator Lifecycle Manager (OLM)
+        # In case we need to install additional Operators
+        env:
+          OLM_VERSION: "v0.31.0"
+        run: |
+          curl -L "https://github.com/operator-framework/operator-lifecycle-manager/releases/download/${OLM_VERSION}/install.sh" -o install-olm.sh
+          chmod +x install-olm.sh
+          ./install-olm.sh "${OLM_VERSION}"
+
+      - name: Run chart-testing
+        run: |
+          ct install \
+            --debug \
+            --charts . \
+            --config ct.yaml \
+            --target-branch "${{ github.event.pull_request.base.ref }}" \
+            --helm-extra-set-args="-f values-dev.yaml \
+            --timeout 500s \
+            --set redhat-developer-hub.global.host=rhdh.127.0.0.1.sslip.io \
+            --set redhat-developer-hub.global.imageTagInfo=main \
+            --set redhat-developer-hub.route.enabled=false \
+            --set redhat-developer-hub.test.enabled=true \
+            --set redhat-developer-hub.test.image.registry=quay.io \
+            --set redhat-developer-hub.test.image.repository=curl/curl-base \
+            --set redhat-developer-hub.test.image.tag=8.11.1 \
+            --set redhat-developer-hub.testImageCredentials.username=${{ secrets.QUAY_USERNAME }} \
+            --set redhat-developer-hub.testImageCredentials.password=${{ secrets.QUAY_PASS }} \
+            --set redhat-developer-hub.upstream.backstage.image.tag=${{ matrix.version }} \
+            --set redhat-developer-hub.upstream.ingress.enabled=true \
+            --set redhat-developer-hub.upstream.postgresql.image.registry=quay.io \
+            --set redhat-developer-hub.upstream.postgresql.image.repository=fedora/postgresql-15 \
+            --set redhat-developer-hub.upstream.postgresql.image.tag=latest \
+            --set redhat-developer-hub.upstream.postgresql.primary.persistence.enabled=false \
+            --set redhat-developer-hub.upstream.backstage.appConfig.ansible.rhaap.token='testToken' \
+            --set redhat-developer-hub.upstream.backstage.appConfig.ansible.rhaap.baseUrl='https://testUrl' \
+            --set redhat-developer-hub.upstream.backstage.appConfig.auth.providers.rhaap.production.host='https://testUrl' \
+            --set redhat-developer-hub.upstream.backstage.appConfig.auth.providers.rhaap.production.clientId='testClientId' \
+            --set redhat-developer-hub.upstream.backstage.appConfig.auth.providers.rhaap.production.clientSecret='testClientSecret'"
