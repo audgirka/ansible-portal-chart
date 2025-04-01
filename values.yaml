@@ -25,7 +25,7 @@ redhat-developer-hub:
         - name: ENABLE_AUTH_PROVIDER_MODULE_OVERRIDE
           value: "true"
         - name: SEGMENT_WRITE_KEY
-          value: "4HEiF8hezyi2JCcVGQzLM60bUuNx4tZZ"
+          value: "uCMHvkR5n5q2v57LNXHwvTYlGV8lqFR9"
       image:
         registry: quay.io
         repository: rhdh/rhdh-hub-rhel9
