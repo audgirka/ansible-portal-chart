@@ -181,7 +181,7 @@ helm install my-portal <path-to-chart> -f values-prod.yaml
 
 In the development environment, plugin images are pulled from a private Quay repository. This repository stores images built from pull request changes on the [ansible-backstage-plugins repository](https://github.com/ansible/ansible-backstage-plugins/tree/main).
 
-**Note:** If you would like to test local changes to plugins, open a PR to ansible-backstage-plugins first, then set the `global.imageTagInfo` value to the new Quay image tag built from the PR . See the **"Update values.yaml"** section below for details. 
+**Note:** If you would like to test local changes to plugins, open a PR to ansible-backstage-plugins first, then set the `global.imageTagInfo` value to the new Quay image tag built from the PR . See the **"Update values.yaml"** section below for details.
 
 ### Create secret to access private Quay repository
 
@@ -257,7 +257,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
         imageTagInfo: # Required: Update here or pass using --set
      ```
 
-- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible` section, update the `checkSSL` value from `true` to `false`. Also, under `extraEnvVars` you can add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`.
+- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible` section, update the `checkSSL` value from `true` to `false`. Next, under `extraEnvVars` you can add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. Also, to allow users to sign in even if they are not present in the catalog, add `appConfig.dangerouslyAllowSignInWithoutUserInCatalog` and set it's value to `true`.
 
      ```yaml
      # values.yaml
@@ -273,6 +273,12 @@ To make this chart work properly, update the placeholder values in values.yaml.
        extraEnvVars:
           - name: NODE_TLS_REJECT_UNAUTHORIZED
             value: '0'
+     ```
+
+     ```yaml
+     # values.yaml
+       appConfig:
+          dangerouslyAllowSignInWithoutUserInCatalog: true
      ```
 
 ### Install the chart

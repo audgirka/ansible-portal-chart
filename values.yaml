@@ -24,6 +24,8 @@ redhat-developer-hub:
               name: '{{- include "janus-idp.postgresql.secretName" . }}'
         - name: ENABLE_AUTH_PROVIDER_MODULE_OVERRIDE
           value: "true"
+        - name: SEGMENT_WRITE_KEY
+          value: "4HEiF8hezyi2JCcVGQzLM60bUuNx4tZZ"
       image:
         registry: quay.io
         repository: rhdh/rhdh-hub-rhel9

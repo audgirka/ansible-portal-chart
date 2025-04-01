@@ -61,3 +61,7 @@ redhat-developer-hub:
         - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic
           disabled: false
           pluginConfig: {}
+        - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
+          disabled: false
+        - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-gitlab-dynamic
+          disabled: false

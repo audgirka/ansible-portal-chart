@@ -66,3 +66,7 @@ redhat-developer-hub:
         disabled: false
         integrity: sha512-5Lq8mleLOpSNeW7Y44fKm3YzJDOA0yZqtMv2ziGxvcA1QCLGGFgR+bqskdIrMXFThN2qKwl0WVNlfLYHxtn1Zw==
         pluginConfig: {}
+      - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
+        disabled: false
+      - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-gitlab-dynamic
+        disabled: false
