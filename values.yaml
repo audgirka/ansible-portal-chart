@@ -5,6 +5,12 @@ redhat-developer-hub:
     _environment:
       _development: false
       _production: false
+  test:
+    enabled: false
+  testImageCredentials:
+    registry: quay.io
+    username: "default"
+    password: "default"
   upstream:
     nameOverride: ansible-portal
     backstage:
@@ -24,6 +30,8 @@ redhat-developer-hub:
               name: '{{- include "janus-idp.postgresql.secretName" . }}'
         - name: ENABLE_AUTH_PROVIDER_MODULE_OVERRIDE
           value: "true"
+        - name: SEGMENT_WRITE_KEY
+          value: "uCMHvkR5n5q2v57LNXHwvTYlGV8lqFR9"
       image:
         registry: quay.io
         repository: rhdh/rhdh-hub-rhel9
@@ -76,9 +84,9 @@ redhat-developer-hub:
           stitchingStrategy:
             immediate: true
           orphanStrategy: delete
-          processingInterval: { seconds: 10 }
-          pollingInterval: { seconds: 1 }
-          stitchTimeout: { minutes: 1 }
+          processingInterval: {seconds: 10}
+          pollingInterval: {seconds: 1}
+          stitchTimeout: {minutes: 1}
           import:
             entityFilename: catalog-info.yaml
             pullRequestBranchName: backstage-integration
@@ -102,8 +110,8 @@ redhat-developer-hub:
             rhaap:
               dev:
                 schedule:
-                  frequency: { minutes: 1 }
-                  timeout: { seconds: 5 }
+                  frequency: {minutes: 1}
+                  timeout: {seconds: 5}
         integrations:
           github:
             - host: github.com
