@@ -313,3 +313,29 @@ helm install my-portal <path-to-chart> -f values-dev.yaml
 | upstream.backstage.image.registry | Registry to pull the RHDH image from. | string | `quay.io` |
 | upstream.backstage.image.repository | Repository to pull the RHDH image from. | string | `rhdh/rhdh-hub-rhel9` |
 | upstream.backstage.image.repository | RHDH image tag. | string | `1.5` |
+
+## Contributing
+
+For contributions to this chart, utilize the production or development environment as needed for testing. 
+
+### Pull Requests
+
+If you want to submit code changes to this project, here are some guidelines:
+
+1. **Create a branch - not from a fork.**
+    
+    Our PR test workflows utilize Github secrets, which are only accessible on branches of this repository, not from forks. If you receive an error during tests related to Quay authentication, verify that the PR was not opened from a fork. 
+
+2. **Implement your changes**
+
+    If you make changes to required values that users must update before deployment, document this in the **"Values"** section above. 
+
+3. **Testing and Linting**
+
+    You can use the `helm lint` command to test if your changes pass the linting check. 
+    
+    For "local" testing, try deploying the helm chart with the development and production environments to your own OpenShift cluster. 
+    
+4. **Open a pull request**
+
+    Open a PR to automatically run our test workflows. Provide a clear description of the changes, including any Jira tickets or Github issues associated with the work. Provide an example of how to test your changes, if relevant. 
