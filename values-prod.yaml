@@ -70,3 +70,34 @@ redhat-developer-hub:
         disabled: false
       - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-gitlab-dynamic
         disabled: false
+  upstream:
+    backstage:
+      appConfig:
+        catalog:
+          stitchingStrategy:
+            immediate: true
+          orphanStrategy: delete
+          processingInterval: {seconds: 10}
+          pollingInterval: {seconds: 1}
+          stitchTimeout: {minutes: 1}
+          import:
+            entityFilename: catalog-info.yaml
+            pullRequestBranchName: backstage-integration
+          rules:
+            - allow:
+                [Component, System, Group, Resource, Location, Template, API, Users]
+          locations:
+            - type: url
+              target: https://github.com/ansible/ansible-rhdh-templates/blob/main/seed.yaml
+              rules:
+                - allow: [Template]
+            - type: file
+              target: /tmp/aap-showcases/all.yaml
+              rules:
+                - allow: [Template]
+          providers:
+            rhaap:
+              dev:
+                schedule:
+                  frequency: {hours: 6}
+                  timeout: {seconds: 30}
