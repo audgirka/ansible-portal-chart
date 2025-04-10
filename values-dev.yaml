@@ -5,6 +5,8 @@ redhat-developer-hub:
     imageTagInfo: # Required: Update here or pass using --set
     dynamic:
       plugins:
+        - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
+          disabled: false
         - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "deployment.quay-image-tag" . }}!ansible-plugin-backstage-rhaap
           disabled: false
           pluginConfig:

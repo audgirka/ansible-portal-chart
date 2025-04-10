@@ -88,7 +88,18 @@ redhat-developer-hub:
           gitlab:
             - host: gitlab.com
               token: "changeme"
-
+        permission:
+          enabled: true
+          rbac:
+            admin:
+              superUsers:
+                - name: user:default/admin
+              users:
+                - name: user:default/admin
+            pluginsWithPermission:
+              - catalog
+              - scaffolder
+              - permission
         dynamicPlugins:
           frontend:
             red-hat-developer-hub.backstage-plugin-global-header:
