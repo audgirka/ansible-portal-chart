@@ -1,5 +1,5 @@
 redhat-developer-hub:
-  nameOverride: ansible-portal
+  nameOverride: rhaap-self-service-preview
   global:
     clusterRouterBase: "apps.ansible-rhdh-dev.testing.ansible.com"
     _environment:
@@ -12,7 +12,7 @@ redhat-developer-hub:
     username: "default"
     password: "default"
   upstream:
-    nameOverride: ansible-portal
+    nameOverride: rhaap-self-service-preview
     backstage:
       extraEnvVars:
         # ---
@@ -40,7 +40,7 @@ redhat-developer-hub:
         - command:
             - adt
             - server
-          image: '{{- include "portal.container-image" . }}'
+          image: '{{- include "deployment.container-image" . }}'
           imagePullPolicy: IfNotPresent
           name: ansible-devtools-server
           ports:

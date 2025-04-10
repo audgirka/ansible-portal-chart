@@ -1,6 +1,6 @@
-# Ansible Portal Helm Chart
+# AAP Technical Preview: Self-service Automation Helm Chart
 
-A Helm chart for deploying Ansible Portal, utilizing Red Hat Developer Hub.
+A Helm chart for deploying self-service automation, utilizing Red Hat Developer Hub.
 
 ### TL;DR
 
@@ -16,7 +16,7 @@ helm install my-rhdh <path-to-chart-directory> -f values-<prod/dev>.yaml
 
 ## Introduction
 
-This chart depends on the [Red Hat Developer Hub (RHDH) Backstage chart](https://github.com/redhat-developer/rhdh-chart/blob/main/charts/backstage/README.md) to deploy Ansible Portal using the [Helm](https://helm.sh) package manager.
+This chart depends on the [Red Hat Developer Hub (RHDH) Backstage chart](https://github.com/redhat-developer/rhdh-chart/blob/main/charts/backstage/README.md) to deploy self-service automation using the [Helm](https://helm.sh) package manager.
 
 There are two available environments: development and production. You must specify which environment you'd like to use at install time.
 
@@ -64,7 +64,7 @@ oc new-project <project-name>
 
 Example:
 ```console
-oc new-project my-portal-project
+oc new-project my-project
 ```
 
 Example output:
@@ -172,7 +172,7 @@ helm install <install-name> <path-to-chart> -f values-prod.yaml
 
 Example:
 ```console
-helm install my-portal <path-to-chart> -f values-prod.yaml
+helm install my-installation <path-to-chart> -f values-prod.yaml
 ```
 
 **Note:** The install name must be unique for each deployment to avoid conflicts with existing releases. If a release with the same name already exists, the installation will fail.
@@ -193,7 +193,7 @@ oc create secret generic <install-name>-dynamic-plugins-registry-auth --from-fil
 
 Example:
 ```console
-oc create secret generic my-portal-dynamic-plugins-registry-auth --from-file=<path-to-auth.json>
+oc create secret generic my-installation-dynamic-plugins-registry-auth --from-file=<path-to-auth.json>
 ```
 
 **Note:** The secret must have this exact name pattern in order to work correctly.
@@ -291,7 +291,7 @@ helm install <install-name> <path-to-chart> -f values-dev.yaml
 
 Example:
 ```console
-helm install my-portal <path-to-chart> -f values-dev.yaml
+helm install my-installation <path-to-chart> -f values-dev.yaml
 ```
 
 **Note:** The install name must be unique for each deployment to avoid conflicts with existing releases. If a release with the same name already exists, the installation will fail.
@@ -303,7 +303,7 @@ helm install my-portal <path-to-chart> -f values-dev.yaml
 | global.clusterRouterBase | Shorthand for users who do not want to specify a custom HOSTNAME. Used ONLY with the DEFAULT upstream.backstage.appConfig value and with OCP Route enabled. | string | `"apps.example.com"` |
 | global.imageTagInfo | *Development environment* - Used to specify a Quay image tag for ansible-backstage-plugins images. | string | `""` |
 | upstream.backstage.extraEnvVars | Overrides the default authentication plugin to use the Ansible dynamic auth plugin. Must be set to 'true' for the custom AAP sign in page to work. | string | `"true"` |
-| upstream.backstage.appConfig | Application configuration for the RHDH and Ansible Portal installation. | object | `{"ansible":"","auth":"","catalog":""}` |
+| upstream.backstage.appConfig | Application configuration for the RHDH and self-service automation installation. | object | `{"ansible":"","auth":"","catalog":""}` |
 | upstream.backstage.appConfig.ansible.rhaap.baseUrl | IP address or URL to your AAP instance. | string | `"changeme"` |
 | upstream.backstage.appConfig.ansible.rhaap.baseUrl | User authentication token from the AAP instance. | string | `"changeme"` |
 | upstream.backstage.appConfig.auth.providers.rhaap.production.host | IP address or URL to your AAP instance. | string | `"changeme"` |
