@@ -5,7 +5,9 @@ redhat-developer-hub:
     imageTagInfo: # Required: Update here or pass using --set
     dynamic:
       plugins:
-        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-plugin-backstage-rhaap
+        - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
+          disabled: false
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "deployment.quay-image-tag" . }}!ansible-plugin-backstage-rhaap
           disabled: false
           pluginConfig:
             dynamicPlugins:
@@ -20,45 +22,44 @@ redhat-developer-hub:
                       icon: AnsibleLogo
                       text: Ansible
                     path: /ansible
-        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "deployment.quay-image-tag" . }}!ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic
           disabled: false
           pluginConfig:
             dynamicPlugins:
               backend:
                 ansible.plugin-scaffolder-backend-module-backstage-rhaap: null
-        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-plugin-backstage-rhaap-backend-dynamic
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "deployment.quay-image-tag" . }}!ansible-plugin-backstage-rhaap-backend-dynamic
           disabled: false
           pluginConfig:
             dynamicPlugins:
               backend:
                 ansible.plugin-backstage-rhaap-backend: null
-        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "deployment.quay-image-tag" . }}!ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic
           disabled: false
-        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-backstage-plugin-wizard-catalog
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "deployment.quay-image-tag" . }}!ansible-plugin-backstage-portal
           disabled: false
           pluginConfig:
             dynamicPlugins:
               frontend:
-                ansible.backstage-plugin-wizard-catalog:
+                ansible.plugin-backstage-portal:
                   signInPage:
                     importName: SignInPage
                   providerSettings:
-                  - title: AAP
-                    description: Sign in with AAP
-                    provider: ansible.auth.rhaap
+                    - title: RHAAP
+                      description: Sign in with RHAAP
+                      provider: ansible.auth.rhaap
                   scaffolderFieldExtensions:
                     - importName: AAPTokenFieldExtension
                     - importName: AAPResourcePickerExtension
-                  appIcons:
-                    - name: AnsibleLogo
-                      importName: AnsibleLogo
                   dynamicRoutes:
-                    - importName: WizardCatalogPage
-                      menuItem:
-                        icon: AnsibleLogo
-                        text: WizardCatalog
-                      path: /wizard/
-        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "portal.quay-image-tag" . }}!ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic
+                    - importName: LandingPage
+                      path: /
+                    - importName: PortalPage
+                      path: /portal
+                  mountPoints:
+                    - mountPoint: application/listener
+                      importName: LocationListener
+        - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "deployment.quay-image-tag" . }}!ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic
           disabled: false
           pluginConfig: {}
         - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
@@ -100,3 +101,4 @@ redhat-developer-hub:
                 schedule:
                   frequency: {minutes: 5}
                   timeout: {seconds: 30}
+                orgs: ['Default']

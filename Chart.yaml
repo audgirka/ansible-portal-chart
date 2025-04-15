@@ -1,6 +1,6 @@
 apiVersion: v2
-name: ansible-portal-chart
-description: A Helm chart for Ansible portal
+name: rhaap-self-service-preview
+description: "AAP Technical Preview: Self-service automation"
 dependencies:
   - name: redhat-developer-hub
     repository: https://charts.openshift.io
