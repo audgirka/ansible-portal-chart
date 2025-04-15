@@ -120,46 +120,56 @@ To make this chart work properly, create your own values.yaml file and populate 
 
      ```yaml
      # my-values.yaml
-     global:
-       clusterRouterBase: apps.example.com
+       redhat-developer-hub:
+         global:
+           clusterRouterBase: apps.example.com
      ```
 
-- Under the `appConfig.ansible` section, update the `rhaap`, `baseUrl` and `token` values from "changeme" to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
+- Under the `appConfig.ansible.rhaap` section, update the `baseUrl` and `token` values from `"changeme"` to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
 
      ```yaml
      # my-values.yaml
-       appConfig:
-          enableExperimentalRedirectFlow: true
-          ansible:
-            rhaap:
-              baseUrl: "changeme"  # in the form https://<ip-or-url-to-AAP-instance>
-              token: "changeme"
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             appConfig:
+               ansible:
+                 rhaap:
+                   baseUrl: "changeme"  # in the form https://<ip-or-url-to-AAP-instance>
+                   token: "changeme"
      ```
--  Under the `appConfig.auth.providers.rhaap.production` section,update the `host`, `clientId`, and `clientSecret` values from "changeme" to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
+-  Under the `appConfig.auth.providers.rhaap.production` section,update the `host`, `clientId`, and `clientSecret` values from `"changeme"` to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
 
      ```yaml
      # my-values.yaml
-       appConfig:
-          auth:
-            providers:
-              rhaap:
-                production:
-                  host: "changeme"
-                  clientId: "changeme"
-                  clientSecret: "changeme"
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             appConfig:
+               auth:
+                 providers:
+                   rhaap:
+                     production:
+                       host: "changeme"
+                       clientId: "changeme"
+                       clientSecret: "changeme"
      ```
 
--  Under the `appConfig.integrations` section, update the github and gitlab `token` values from "changeme" to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
+-  Under the `appConfig.integrations` section, update the github and gitlab `token` values from `"changeme"` to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
 
      ```yaml
      # my-values.yaml
-        integrations:
-          github:
-            - host: github.com
-              token: "changeme"
-          gitlab:
-            - host: gitlab.com
-              token: "changeme"
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             appConfig:
+               integrations:
+                 github:
+                   - host: github.com
+                     token: "changeme"
+                 gitlab:
+                   - host: gitlab.com
+                     token: "changeme"
      ```
 
 ### Install the chart
@@ -206,79 +216,98 @@ To make this chart work properly, create your own values.yaml file and populate 
 
      ```yaml
      # my-values.yaml
-     global:
-       clusterRouterBase: apps.example.com
+       redhat-developer-hub:
+         global:
+           clusterRouterBase: apps.example.com
      ```
 
-- Under the `appConfig.ansible` section, update the `rhaap`, `baseUrl` and `token` values from "changeme" to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
+- Under the `appConfig.ansible.rhaap` section, update the `baseUrl` and `token` values from `"changeme"` to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
 
      ```yaml
      # my-values.yaml
-       appConfig:
-          enableExperimentalRedirectFlow: true
-          ansible:
-            rhaap:
-              baseUrl: "changeme"  # in the form https://<ip-or-url-to-AAP-instance>
-              token: "changeme"
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             appConfig:
+               ansible:
+                 rhaap:
+                   baseUrl: "changeme"  # in the form https://<ip-or-url-to-AAP-instance>
+                   token: "changeme"
      ```
 
--  Under the `appConfig.auth.providers.rhaap.production` section, update the `host`, `clientId`, and `clientSecret` values from "changeme" to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
+-  Under the `appConfig.auth.providers.rhaap.production` section, update the `host`, `clientId`, and `clientSecret` values from `"changeme"` to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
 
      ```yaml
      # my-values.yaml
-       appConfig:
-          auth:
-            providers:
-              rhaap:
-                production:
-                  host: "changeme"
-                  clientId: "changeme"
-                  clientSecret: "changeme"
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             appConfig:
+               auth:
+                 providers:
+                   rhaap:
+                     production:
+                       host: "changeme"
+                       clientId: "changeme"
+                       clientSecret: "changeme"
      ```
 
--  Under the `appConfig.integrations` section, update the github and gitlab `token` values from "changeme" to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
+-  Under the `appConfig.integrations` section, update the github and gitlab `token` values from `"changeme"` to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
 
      ```yaml
      # my-values.yaml
-        integrations:
-          github:
-            - host: github.com
-              token: "changeme"
-          gitlab:
-            - host: gitlab.com
-              token: "changeme"
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             appConfig:
+               integrations:
+                 github:
+                   - host: github.com
+                     token: "changeme"
+                 gitlab:
+                   - host: gitlab.com
+                     token: "changeme"
      ```
 
 - Under global.imageTagInfo, you can either update the Quay image tag inside the values-dev.yaml file manually, or pass the value via the command line using `--set global.imageTagInfo=<image-tag>`.
 
      ```yaml
      # my-values.yaml
-      global:
-        imageTagInfo: # Required: Update here or pass using --set
+       redhat-developer-hub:
+         global:
+           imageTagInfo: # Required: Update here or pass using --set
      ```
 
-- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible` section, update the `checkSSL` value from `true` to `false`. Next, under `extraEnvVars` you can add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. Also, to allow users to sign in even if they are not present in the catalog, add `appConfig.dangerouslyAllowSignInWithoutUserInCatalog` and set it's value to `true`.
+- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible.rhaap` section, update the `checkSSL` value from `true` to `false`. Next, under `extraEnvVars` you can add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. Also, to allow users to sign in even if they are not present in the catalog, add `appConfig.dangerouslyAllowSignInWithoutUserInCatalog` and set it's value to `true`.
 
      ```yaml
      # my-values.yaml
-       appConfig:
-          enableExperimentalRedirectFlow: true
-          ansible:
-            rhaap:
-              checkSSL: true
-     ```
-
-     ```yaml
-     # my-values.yaml
-       extraEnvVars:
-          - name: NODE_TLS_REJECT_UNAUTHORIZED
-            value: '0'
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             appConfig:
+               ansible:
+                 rhaap:
+                   checkSSL: true
      ```
 
      ```yaml
      # my-values.yaml
-       appConfig:
-          dangerouslyAllowSignInWithoutUserInCatalog: true
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             extraEnvVars:
+               - name: NODE_TLS_REJECT_UNAUTHORIZED
+                 value: '0'
+     ```
+
+     ```yaml
+     # my-values.yaml
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             appConfig:
+               dangerouslyAllowSignInWithoutUserInCatalog: true
      ```
 
 ### Install the chart

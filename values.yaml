@@ -1,7 +1,7 @@
 redhat-developer-hub:
   nameOverride: rhaap-self-service-preview
   global:
-    clusterRouterBase: "apps.ansible-rhdh-dev.testing.ansible.com"
+    clusterRouterBase: apps.example.com
     _environment:
       _development: false
       _production: false
