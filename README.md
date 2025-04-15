@@ -114,12 +114,12 @@ oc new-app --image-stream=plugin-registry
 
 ### Update values.yaml
 
-To make this chart work properly, update the placeholder values in values.yaml.
+To make this chart work properly, create your own values.yaml file and populate the keys below.
 
 - To get proper connection between frontend and backend of Backstage, update the clusterRouteBase key to match your cluster host URL:
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
      global:
        clusterRouterBase: apps.example.com
      ```
@@ -127,7 +127,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
 - Under the `appConfig.ansible` section, update the `rhaap`, `baseUrl` and `token` values from "changeme" to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
        appConfig:
           enableExperimentalRedirectFlow: true
           ansible:
@@ -138,7 +138,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
 -  Under the `appConfig.auth.providers.rhaap.production` section,update the `host`, `clientId`, and `clientSecret` values from "changeme" to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
        appConfig:
           auth:
             providers:
@@ -152,7 +152,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
 -  Under the `appConfig.integrations` section, update the github and gitlab `token` values from "changeme" to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
         integrations:
           github:
             - host: github.com
@@ -167,12 +167,12 @@ To make this chart work properly, update the placeholder values in values.yaml.
 The following command can be used to install the chart:
 
 ```console
-helm install <install-name> <path-to-chart> -f values-prod.yaml
+helm install <install-name> <path-to-chart> -f values-prod.yaml -f my-values.yaml
 ```
 
 Example:
 ```console
-helm install my-installation <path-to-chart> -f values-prod.yaml
+helm install my-installation <path-to-chart> -f values-prod.yaml -f my-values.yaml
 ```
 
 **Note:** The install name must be unique for each deployment to avoid conflicts with existing releases. If a release with the same name already exists, the installation will fail.
@@ -200,12 +200,12 @@ oc create secret generic my-installation-dynamic-plugins-registry-auth --from-fi
 
 ### Update values.yaml
 
-To make this chart work properly, update the placeholder values in values.yaml.
+To make this chart work properly, create your own values.yaml file and populate the keys below.
 
 - To get proper connection between frontend and backend of Backstage, update the clusterRouteBase key value to your cluster host URL:
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
      global:
        clusterRouterBase: apps.example.com
      ```
@@ -213,7 +213,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
 - Under the `appConfig.ansible` section, update the `rhaap`, `baseUrl` and `token` values from "changeme" to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
        appConfig:
           enableExperimentalRedirectFlow: true
           ansible:
@@ -225,7 +225,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
 -  Under the `appConfig.auth.providers.rhaap.production` section, update the `host`, `clientId`, and `clientSecret` values from "changeme" to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
        appConfig:
           auth:
             providers:
@@ -239,7 +239,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
 -  Under the `appConfig.integrations` section, update the github and gitlab `token` values from "changeme" to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
         integrations:
           github:
             - host: github.com
@@ -252,7 +252,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
 - Under global.imageTagInfo, you can either update the Quay image tag inside the values-dev.yaml file manually, or pass the value via the command line using `--set global.imageTagInfo=<image-tag>`.
 
      ```yaml
-     # values-dev.yaml
+     # my-values.yaml
       global:
         imageTagInfo: # Required: Update here or pass using --set
      ```
@@ -260,7 +260,7 @@ To make this chart work properly, update the placeholder values in values.yaml.
 - **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible` section, update the `checkSSL` value from `true` to `false`. Next, under `extraEnvVars` you can add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. Also, to allow users to sign in even if they are not present in the catalog, add `appConfig.dangerouslyAllowSignInWithoutUserInCatalog` and set it's value to `true`.
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
        appConfig:
           enableExperimentalRedirectFlow: true
           ansible:
@@ -269,14 +269,14 @@ To make this chart work properly, update the placeholder values in values.yaml.
      ```
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
        extraEnvVars:
           - name: NODE_TLS_REJECT_UNAUTHORIZED
             value: '0'
      ```
 
      ```yaml
-     # values.yaml
+     # my-values.yaml
        appConfig:
           dangerouslyAllowSignInWithoutUserInCatalog: true
      ```
@@ -286,12 +286,12 @@ To make this chart work properly, update the placeholder values in values.yaml.
 The following command can be used to install the chart:
 
 ```console
-helm install <install-name> <path-to-chart> -f values-dev.yaml
+helm install <install-name> <path-to-chart> -f values-dev.yaml -f my-values.yaml
 ```
 
 Example:
 ```console
-helm install my-installation <path-to-chart> -f values-dev.yaml
+helm install my-installation <path-to-chart> -f values-dev.yaml -f my-values.yaml
 ```
 
 **Note:** The install name must be unique for each deployment to avoid conflicts with existing releases. If a release with the same name already exists, the installation will fail.
@@ -316,26 +316,26 @@ helm install my-installation <path-to-chart> -f values-dev.yaml
 
 ## Contributing
 
-For contributions to this chart, utilize the production or development environment as needed for testing. 
+For contributions to this chart, utilize the production or development environment as needed for testing.
 
 ### Pull Requests
 
 If you want to submit code changes to this project, here are some guidelines:
 
 1. **Create a branch - not from a fork.**
-    
-    Our PR test workflows utilize Github secrets, which are only accessible on branches of this repository, not from forks. If you receive an error during tests related to Quay authentication, verify that the PR was not opened from a fork. 
+
+    Our PR test workflows utilize Github secrets, which are only accessible on branches of this repository, not from forks. If you receive an error during tests related to Quay authentication, verify that the PR was not opened from a fork.
 
 2. **Implement your changes**
 
-    If you make changes to required values that users must update before deployment, document this in the **"Values"** section above. 
+    If you make changes to required values that users must update before deployment, document this in the **"Values"** section above.
 
 3. **Testing and Linting**
 
-    You can use the `helm lint` command to test if your changes pass the linting check. 
-    
-    For "local" testing, try deploying the helm chart with the development and production environments to your own OpenShift cluster. 
-    
+    You can use the `helm lint` command to test if your changes pass the linting check.
+
+    For "local" testing, try deploying the helm chart with the development and production environments to your own OpenShift cluster.
+
 4. **Open a pull request**
 
-    Open a PR to automatically run our test workflows. Provide a clear description of the changes, including any Jira tickets or Github issues associated with the work. Provide an example of how to test your changes, if relevant. 
+    Open a PR to automatically run our test workflows. Provide a clear description of the changes, including any Jira tickets or Github issues associated with the work. Provide an example of how to test your changes, if relevant.
