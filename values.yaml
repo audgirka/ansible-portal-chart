@@ -59,15 +59,15 @@ redhat-developer-hub:
             checkSSL: true
             showCaseLocation:
               type: file
-              target: '/tmp/aap-showcases/'
+              target: "/tmp/aap-showcases/"
             schedule:
               frequency:
                 seconds: 120
               timeout:
                 seconds: 5
           creatorService:
-            baseUrl: '127.0.0.1'
-            port: '8000'
+            baseUrl: "127.0.0.1"
+            port: "8000"
         auth:
           environment: production
           signInPage: rhaap
@@ -157,31 +157,31 @@ redhat-developer-hub:
                   to: /portal/create/tasks
                   priority: 110
                 default.home:
-                  title: ''
+                  title: ""
                   icon: home
                   to: /
                   priority: 100
                 default.catalog:
-                  title: ''
+                  title: ""
                   icon: category
                   to: catalog
                   priority: 80
                 default.my-group:
-                  title: ''
+                  title: ""
                   icon: group
                   priority: 70
                 default.apis:
-                  title: ''
+                  title: ""
                   icon: extension
                   to: api-docs
                   priority: 60
                 default.learning-path:
-                  title: ''
+                  title: ""
                   icon: school
                   to: learning-paths
                   priority: 50
                 default.create:
-                  title: ''
+                  title: ""
                   icon: add
                   to: create
                   priority: 40
@@ -202,20 +202,20 @@ redhat-developer-hub:
                   importName: DynamicPluginsInfoPage
               menuItems:
                 admin:
-                  title: 'Administration'
+                  title: "Administration"
                   icon: adminIcon
                 plugins:
                   parent: admin
-                  title: ''
+                  title: ""
                   to: rbac
                   icon: pluginsInfoIcon
                 licensing:
                   parent: admin
-                  title: ''
+                  title: ""
                   to: licensing
                   icon: pluginsInfoIcon
                 extensions:
                   parent: admin
-                  title: ''
+                  title: ""
                   to: extensions
                   icon: pluginsInfoIcon

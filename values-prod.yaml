@@ -55,15 +55,24 @@ redhat-developer-hub:
           stitchingStrategy:
             immediate: true
           orphanStrategy: delete
-          processingInterval: {seconds: 10}
-          pollingInterval: {seconds: 1}
-          stitchTimeout: {minutes: 1}
+          processingInterval: { seconds: 10 }
+          pollingInterval: { seconds: 1 }
+          stitchTimeout: { minutes: 1 }
           import:
             entityFilename: catalog-info.yaml
             pullRequestBranchName: backstage-integration
           rules:
             - allow:
-                [Component, System, Group, Resource, Location, Template, API, Users]
+                [
+                  Component,
+                  System,
+                  Group,
+                  Resource,
+                  Location,
+                  Template,
+                  API,
+                  Users,
+                ]
           locations:
             - type: url
               target: https://github.com/ansible/ansible-rhdh-templates/blob/main/seed.yaml
@@ -77,6 +86,6 @@ redhat-developer-hub:
             rhaap:
               dev:
                 schedule:
-                  frequency: {hours: 6}
-                  timeout: {seconds: 30}
-                orgs: ['Default']
+                  frequency: { hours: 6 }
+                  timeout: { seconds: 30 }
+                orgs: ["Default"]

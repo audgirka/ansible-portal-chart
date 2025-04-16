@@ -63,11 +63,13 @@ oc new-project <project-name>
 ```
 
 Example:
+
 ```console
 oc new-project my-project
 ```
 
 Example output:
+
 ```
 Now using project "my-project" on server "https://openshift.example.com:6443".
 ```
@@ -138,7 +140,8 @@ To make this chart work properly, create your own values.yaml file and populate 
                    baseUrl: "changeme"  # in the form https://<ip-or-url-to-AAP-instance>
                    token: "changeme"
      ```
--  Under the `appConfig.auth.providers.rhaap.production` section,update the `host`, `clientId`, and `clientSecret` values from `"changeme"` to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
+
+- Under the `appConfig.auth.providers.rhaap.production` section,update the `host`, `clientId`, and `clientSecret` values from `"changeme"` to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
 
      ```yaml
      # my-values.yaml
@@ -155,7 +158,7 @@ To make this chart work properly, create your own values.yaml file and populate 
                        clientSecret: "changeme"
      ```
 
--  Under the `appConfig.integrations` section, update the github and gitlab `token` values from `"changeme"` to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
+- Under the `appConfig.integrations` section, update the github and gitlab `token` values from `"changeme"` to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
 
      ```yaml
      # my-values.yaml
@@ -181,6 +184,7 @@ helm install <install-name> <path-to-chart> -f values-prod.yaml -f my-values.yam
 ```
 
 Example:
+
 ```console
 helm install my-installation <path-to-chart> -f values-prod.yaml -f my-values.yaml
 ```
@@ -202,6 +206,7 @@ oc create secret generic <install-name>-dynamic-plugins-registry-auth --from-fil
 ```
 
 Example:
+
 ```console
 oc create secret generic my-installation-dynamic-plugins-registry-auth --from-file=<path-to-auth.json>
 ```
@@ -235,7 +240,7 @@ To make this chart work properly, create your own values.yaml file and populate 
                    token: "changeme"
      ```
 
--  Under the `appConfig.auth.providers.rhaap.production` section, update the `host`, `clientId`, and `clientSecret` values from `"changeme"` to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
+- Under the `appConfig.auth.providers.rhaap.production` section, update the `host`, `clientId`, and `clientSecret` values from `"changeme"` to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
 
      ```yaml
      # my-values.yaml
@@ -252,7 +257,7 @@ To make this chart work properly, create your own values.yaml file and populate 
                        clientSecret: "changeme"
      ```
 
--  Under the `appConfig.integrations` section, update the github and gitlab `token` values from `"changeme"` to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
+- Under the `appConfig.integrations` section, update the github and gitlab `token` values from `"changeme"` to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
 
      ```yaml
      # my-values.yaml
@@ -319,6 +324,7 @@ helm install <install-name> <path-to-chart> -f values-dev.yaml -f my-values.yaml
 ```
 
 Example:
+
 ```console
 helm install my-installation <path-to-chart> -f values-dev.yaml -f my-values.yaml
 ```

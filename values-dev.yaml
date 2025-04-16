@@ -14,14 +14,14 @@ redhat-developer-hub:
               frontend:
                 ansible.plugin-backstage-rhaap:
                   appIcons:
-                  - importName: AnsibleLogo
-                    name: AnsibleLogo
+                    - importName: AnsibleLogo
+                      name: AnsibleLogo
                   dynamicRoutes:
-                  - importName: AnsiblePage
-                    menuItem:
-                      icon: AnsibleLogo
-                      text: Ansible
-                    path: /ansible
+                    - importName: AnsiblePage
+                      menuItem:
+                        icon: AnsibleLogo
+                        text: Ansible
+                      path: /ansible
         - package: oci://quay.io/ansible/ansible-backstage-plugins:{{- include "deployment.quay-image-tag" . }}!ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic
           disabled: false
           pluginConfig:
@@ -73,15 +73,24 @@ redhat-developer-hub:
           stitchingStrategy:
             immediate: true
           orphanStrategy: delete
-          processingInterval: {seconds: 10}
-          pollingInterval: {seconds: 1}
-          stitchTimeout: {minutes: 1}
+          processingInterval: { seconds: 10 }
+          pollingInterval: { seconds: 1 }
+          stitchTimeout: { minutes: 1 }
           import:
             entityFilename: catalog-info.yaml
             pullRequestBranchName: backstage-integration
           rules:
             - allow:
-                [Component, System, Group, Resource, Location, Template, API, Users]
+                [
+                  Component,
+                  System,
+                  Group,
+                  Resource,
+                  Location,
+                  Template,
+                  API,
+                  Users,
+                ]
           locations:
             - type: url
               target: https://github.com/ansible/ansible-rhdh-templates/blob/devel/all.yaml
@@ -99,6 +108,6 @@ redhat-developer-hub:
             rhaap:
               dev:
                 schedule:
-                  frequency: {minutes: 5}
-                  timeout: {seconds: 30}
-                orgs: ['Default']
+                  frequency: { minutes: 5 }
+                  timeout: { seconds: 30 }
+                orgs: ["Default"]
