@@ -3,7 +3,7 @@ entries:
   rhaap-self-service-preview:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2025-04-16T11:14:40.8405+05:30"
+    created: "2025-04-16T19:44:51.582419+05:30"
     dependencies:
     - name: redhat-developer-hub
       repository: https://charts.openshift.io
@@ -11,10 +11,10 @@ entries:
       - redhat-developer-hub
       version: 1.5.1
     description: 'AAP Technical Preview: Self-service automation'
-    digest: 60382f2cc38222feb1f5ba9a39b84eda736dc98f46f0b9a87d6184fda2a8fbe4
+    digest: c4af2a55a252f5e809223b14beb9d531c82fa94a25ec927591b8f4cce7702a1d
     name: rhaap-self-service-preview
     type: application
     urls:
-    - https://github.com/ansible-automation-platform/ansible-portal-chart/rhaap-self-service-preview-0.1.0.tgz
+    - rhaap-self-service-preview-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-16T11:14:40.829473+05:30"
+generated: "2025-04-16T19:44:51.572248+05:30"
