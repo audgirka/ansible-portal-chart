@@ -278,7 +278,11 @@ To make this chart work properly, create your own values.yaml file and populate 
            imageTagInfo: # Required: Update here or pass using --set
      ```
 
-- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible.rhaap` section, update the `checkSSL` value from `true` to `false`. Next, under `extraEnvVars` you can add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. Also, to allow users to sign in even if they are not present in the catalog, add `appConfig.dangerouslyAllowSignInWithoutUserInCatalog` and set it's value to `true`.
+- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible.rhaap` section, update the `checkSSL` value from `true` to `false`.
+
+    Under extraEnvVars in values.yaml, add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. Make sure to add this in the `values.yaml` file, not your custom values file, as adding an entry into the extraEnvVars will override env vars in other value files. This is a known issue, with updates tracked [here](https://issues.redhat.com/browse/RHIDP-6082). 
+
+    Also, to allow users to sign in even if they are not present in the catalog, add `appConfig.dangerouslyAllowSignInWithoutUserInCatalog` and set it's value to `true`.
 
      ```yaml
      # my-values.yaml
@@ -292,7 +296,7 @@ To make this chart work properly, create your own values.yaml file and populate 
      ```
 
      ```yaml
-     # my-values.yaml
+     # values.yaml
        redhat-developer-hub:
          upstream:
            backstage:
