@@ -26,7 +26,14 @@
     (index .Values "redhat-developer-hub" "global" "_environment" "_production")
     (index .Values "redhat-developer-hub" "global" "_environment" "_development")
 ) -}}
-{{- fail "Either values-prod.yaml or values-dev.yaml must be passed using the --values (or -f) flag" -}}
+{{- fail "Set either the production or development environment to true with --set global._environment.[_development, _production]=true" -}}
+{{- end -}}
+
+{{- if (and
+    (index .Values "redhat-developer-hub" "global" "_environment" "_production")
+    (index .Values "redhat-developer-hub" "global" "_environment" "_development")
+) -}}
+{{- fail "Both production and development environments are set to true, but both cannot be active. Set one to false." -}}
 {{- end -}}
 
 {{- if and
