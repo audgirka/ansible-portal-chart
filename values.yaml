@@ -4,7 +4,54 @@ redhat-developer-hub:
     clusterRouterBase: apps.example.com
     _environment:
       _development: false
-      _production: false
+      _production: true
+    imageTagInfo: main
+    dynamic:
+      plugins:
+        - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
+          disabled: false
+        - package: '{{- include "plugins.load.scaffolder" . }}'
+          disabled: false
+          integrity: '{{- include "plugins.integrity.scaffolder" . }}'
+          pluginConfig:
+            dynamicPlugins:
+              backend:
+                ansible.plugin-scaffolder-backend-module-backstage-rhaap: null
+        - package: '{{- include "plugins.load.catalog" . }}'
+          disabled: false
+          integrity: '{{- include "plugins.integrity.catalog" . }}'
+        - package: '{{- include "plugins.load.portal" . }}'
+          disabled: false
+          integrity: '{{- include "plugins.integrity.portal" . }}'
+          pluginConfig:
+            dynamicPlugins:
+              frontend:
+                ansible.plugin-backstage-portal:
+                  signInPage:
+                    importName: SignInPage
+                  providerSettings:
+                    - title: RHAAP
+                      description: Sign in with RHAAP
+                      provider: ansible.auth.rhaap
+                  scaffolderFieldExtensions:
+                    - importName: AAPTokenFieldExtension
+                    - importName: AAPResourcePickerExtension
+                  dynamicRoutes:
+                    - importName: LandingPage
+                      path: /
+                    - importName: PortalPage
+                      path: /portal
+                  mountPoints:
+                    - mountPoint: application/listener
+                      importName: LocationListener
+        - package: '{{- include "plugins.load.auth" . }}'
+          disabled: false
+          integrity: '{{- include "plugins.integrity.auth" . }}'
+          pluginConfig: {}
+        - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-github-dynamic
+          disabled: false
+        - package: ./dynamic-plugins/dist/backstage-plugin-scaffolder-backend-module-gitlab-dynamic
+          disabled: false
   test:
     enabled: false
   testImageCredentials:
@@ -219,3 +266,36 @@ redhat-developer-hub:
                   title: ''
                   to: extensions
                   icon: pluginsInfoIcon
+        catalog:
+          stitchingStrategy:
+            immediate: true
+          orphanStrategy: delete
+          processingInterval: {seconds: 10}
+          pollingInterval: {seconds: 1}
+          stitchTimeout: {minutes: 1}
+          import:
+            entityFilename: catalog-info.yaml
+            pullRequestBranchName: backstage-integration
+          rules:
+            - allow:
+                [Component, System, Group, Resource, Location, Template, API, Users]
+          locations:
+            - type: url
+              target: https://github.com/ansible/ansible-rhdh-templates/blob/{{- include "templates.branch" . }}/all.yaml
+              rules:
+                - allow: [Template]
+            - type: url
+              target: https://github.com/ansible/ansible-rhdh-templates/blob/{{- include "templates.branch" . }}/seed.yaml
+              rules:
+                - allow: [Template]
+            - type: file
+              target: /tmp/aap-showcases/all.yaml
+              rules:
+                - allow: [Template]
+          providers:
+            rhaap:
+              development:
+                schedule:
+                  frequency: {hours: 6}  # Update as needed for testing
+                  timeout: {seconds: 30}
+                orgs: ['Default']

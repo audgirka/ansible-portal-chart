@@ -130,10 +130,9 @@ jobs:
             --charts . \
             --config ct.yaml \
             --target-branch "${{ github.event.pull_request.base.ref }}" \
-            --helm-extra-set-args="-f values-dev.yaml \
-            --timeout 500s \
+            --helm-extra-set-args="--set redhat-developer-hub.global._environment._development=true \
+            --set redhat-developer-hub.global._environment._production=false \
             --set redhat-developer-hub.global.host=rhdh.127.0.0.1.sslip.io \
-            --set redhat-developer-hub.global.imageTagInfo=main \
             --set redhat-developer-hub.route.enabled=false \
             --set redhat-developer-hub.test.enabled=true \
             --set redhat-developer-hub.test.image.registry=quay.io \
