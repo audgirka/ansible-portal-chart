@@ -2,41 +2,28 @@
 
 A Helm chart for deploying self-service automation, utilizing Red Hat Developer Hub.
 
-### TL;DR
-
-```
-git clone https://github.com/ansible-automation-platform/ansible-portal-chart.git
-cd ansible-portal-chart
-
-helm repo add redhat-developer-hub https://charts.openshift.io
-helm dependency update
-
-helm install my-rhdh <path-to-chart-directory> -f values-<prod/dev>.yaml
-```
-
 ## Introduction
 
 This chart depends on the [Red Hat Developer Hub (RHDH) Backstage chart](https://github.com/redhat-developer/rhdh-chart/blob/main/charts/backstage/README.md) to deploy self-service automation using the [Helm](https://helm.sh) package manager.
 
-There are two available environments: development and production. You must specify which environment you'd like to use at install time.
-
-This chart is designed for use alongside an Ansible Automation Platform (AAP) instance, so you can authenticate with AAP to RHDH.
+This chart is designed for use alongside an Ansible Automation Platform (AAP) instance, so you can authenticate with AAP.
 
 ## Prerequisites
 
 - Kubernetes 1.25+ (OpenShift 4.12+)
 - Helm 3.10+ or [latest release](https://github.com/helm/helm/releases)
-- PV provisioner support in the underlying infrastructure
+- `PersistentVolume` provisioner support in the underlying infrastructure is available.
 - [Backstage container image](https://backstage.io/docs/deployment/docker)
+- A plugin registry containing the required plugins is deployed in the OpenShift environment (see [this section](#create-plugin-registry) for details)
 
 ## Usage
 
-Charts are available in the following formats:
+This chart is available in the following formats:
 
+- [OpenShift Helm Catalog](https://docs.redhat.com/en/documentation/openshift_container_platform)
 - [Chart Repository](https://helm.sh/docs/topics/chart_repository/)
-- [OCI Artifacts](https://helm.sh/docs/topics/registries/)
 
-**Note:** Currently this helm chart has no public releases. To use this chart, you must clone this repository and install the chart from source.
+To fetch the chart from the source repository, run:
 
 ```console
 git clone https://github.com/ansible-automation-platform/ansible-portal-chart.git
@@ -45,7 +32,7 @@ cd ansible-portal-chart
 
 ### Dependencies
 
-This chart depends on the productized [RHDH Backstage chart](https://github.com/redhat-developer/rhdh-chart). Use the following command to add the productized chart repository:
+This chart depends on the productized [RHDH Backstage chart](https://github.com/redhat-developer/rhdh-chart). If installing manually, use the following command to add the productized chart repository:
 
 ```console
 helm repo add redhat-developer-hub https://charts.openshift.io
@@ -54,7 +41,7 @@ helm dependency update
 
 ### Install and log into OpenShift CLI
 
-To deploy the helm chart from your local environment, follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#installing-openshift-cli) for installing OpenShift CLI (`oc`) locally, then follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-logging-in_cli-developer-commands) to log in.
+To deploy a plugin registry or the helm chart from your local environment, follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#installing-openshift-cli) for installing OpenShift CLI (`oc`) locally, then follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-logging-in_cli-developer-commands) to log in.
 
 Use the following command to create a new OpenShift project:
 
@@ -72,13 +59,47 @@ Example output:
 Now using project "my-project" on server "https://openshift.example.com:6443".
 ```
 
-### Choose environment
+## Choose environment
 
-Before installing the chart, determine which environment to use. There are two environments: **development** and **production**.
+Before installing the chart, determine which environment to use. There are two environments: **development** and **production**. This chart defaults to using the production environment and should only be switched to development if you are testing changes to the Ansible plugins or this chart. 
 
-If you are using this chart to test changes to [ansible-backstage-plugins](https://github.com/ansible/ansible-backstage-plugins), you will likely want to use the development values.
+The production environment requires a plugin-registry set up in your OpenShift project.
 
-If you are using this chart in a production environment, you will need to use the production values.
+The development environment pulls plugin images from the [ansible-backstage-plugins Quay repository](https://quay.io/repository/ansible/ansible-backstage-plugins). The `main` tag is pulled by default. See the ["Development Environment"](#development-environment) section for configuration instructions. 
+
+
+## Installation
+
+Follow the steps below for the installation procedure, and refer to the other sections of this README as needed before installing. 
+
+**Note:** The install name must be unique for each deployment to avoid conflicts with existing releases. If a release with the same name already exists, the installation will fail.
+
+### Installing from OpenShift Helm Catalog
+
+**Procedure**
+
+1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step.
+2. Click the "Create" button at the top of the modal dialog on the chart page.
+3. Update values as indicated in the Production ["Update values file" section](#update-values-file).
+4. Click "Create" at the bottom of the page to launch the deployment. 
+
+### Installing from local chart repository
+
+**Procedure**
+
+1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step, or switched to the development environment. 
+2. Update your own values file as indicated in the Production ["Update values file" section](#update-values-file) or Development ["Update values file" section](#update-values-files) sections. 
+3. Use the following command to install the chart:
+
+    ```console
+    helm install <install-name> <path-to-chart> -f <your-values-file>
+    ```
+
+    Example:
+    ```console
+    helm install my-installation . -f my-values.yaml
+    ```
+
 
 ## Production environment
 
@@ -102,8 +123,6 @@ To use the **upstream** plugins, download the plugin .tar and .integrity files f
 
 To use the **downstream** plugins, download the the latest .tar file for the plugins from the [Red Hat Ansible Automation Platform Product Software downloads page](https://access.redhat.com/downloads/content/480/ver=2.5/rhel---9/2.5/x86_64/product-software) to the `DYNAMIC_PLUGIN_ROOT_DIR` path. The format of the filename is ansible-backstage-rhaap-bundle-x.y.z.tar.gz. Substitute the Ansible plugins release version, for example 1.0.0, for x.y.z. Extract the contents inside the directory and run `ls` to ensure the plugin .tar and integrity files are present.
 
-(**Note:** To use locally built plugins in the plugin registry, you will need to update the integrity keys in the values-prod.yaml file to the values in your local plugins' .integrity files. This is not recommended, as the integrity values update every time the plugins are rebuilt. Instead, we recommend following the development section below.)
-
 Next, create an httpd service as part of your OpenShift project. Ensure you're using the correct OpenShift project before deploying the service (verify using `oc projects`).
 
 ```console
@@ -112,9 +131,11 @@ oc start-build plugin-registry --from-dir=$DYNAMIC_PLUGIN_ROOT_DIR --wait
 oc new-app --image-stream=plugin-registry
 ```
 
-### Update values.yaml
+### Update values file
 
-To make this chart work properly, create your own values.yaml file and populate the keys below.
+**If installing from the OpenShift Helm Catalog:** Update the values shown below in the "Create Helm Release" YAML view. 
+
+**If installing locally from chart source:** Create your own values.yaml file and populate the keys below.
 
 - To get proper connection between frontend and backend of Backstage, update the clusterRouteBase key to match your cluster host URL:
 
@@ -172,26 +193,9 @@ To make this chart work properly, create your own values.yaml file and populate 
                      token: "changeme"
      ```
 
-### Install the chart
-
-The following command can be used to install the chart:
-
-```console
-helm install <install-name> <path-to-chart> -f values-prod.yaml -f my-values.yaml
-```
-
-Example:
-```console
-helm install my-installation <path-to-chart> -f values-prod.yaml -f my-values.yaml
-```
-
-**Note:** The install name must be unique for each deployment to avoid conflicts with existing releases. If a release with the same name already exists, the installation will fail.
-
 ## Development Environment
 
 In the development environment, plugin images are pulled from a private Quay repository. This repository stores images built from pull request changes on the [ansible-backstage-plugins repository](https://github.com/ansible/ansible-backstage-plugins/tree/main).
-
-**Note:** If you would like to test local changes to plugins, open a PR to ansible-backstage-plugins first, then set the `global.imageTagInfo` value to the new Quay image tag built from the PR . See the **"Update values.yaml"** section below for details.
 
 ### Create secret to access private Quay repository
 
@@ -208,9 +212,22 @@ oc create secret generic my-installation-dynamic-plugins-registry-auth --from-fi
 
 **Note:** The secret must have this exact name pattern in order to work correctly.
 
-### Update values.yaml
+### Update values files
 
-To make this chart work properly, create your own values.yaml file and populate the keys below.
+**If installing from the OpenShift Helm Catalog:** Update the values shown below in the "Create Helm Release" YAML view. 
+
+**If installing locally from chart source:** Create your own values.yaml file and populate the keys below. 
+
+- Update the `global._environment._production` key to `false`, and the `global._environment._development` key to `true`.
+ 
+     ```yaml
+     # my-values.yaml
+       redhat-developer-hub:
+         global:
+           _environment:
+             _production: false
+             _development: true
+     ```
 
 - To get proper connection between frontend and backend of Backstage, update the clusterRouteBase key value to your cluster host URL:
 
@@ -314,22 +331,7 @@ To make this chart work properly, create your own values.yaml file and populate 
                dangerouslyAllowSignInWithoutUserInCatalog: true
      ```
 
-### Install the chart
-
-The following command can be used to install the chart:
-
-```console
-helm install <install-name> <path-to-chart> -f values-dev.yaml -f my-values.yaml
-```
-
-Example:
-```console
-helm install my-installation <path-to-chart> -f values-dev.yaml -f my-values.yaml
-```
-
-**Note:** The install name must be unique for each deployment to avoid conflicts with existing releases. If a release with the same name already exists, the installation will fail.
-
-## Values
+## Chart Values List
 
 | Key | Description | Type | Default |
 |-----|-------------|------|---------|
