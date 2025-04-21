@@ -281,10 +281,6 @@ redhat-developer-hub:
                 [Component, System, Group, Resource, Location, Template, API, Users]
           locations:
             - type: url
-              target: https://github.com/ansible/ansible-rhdh-templates/blob/{{- include "templates.branch" . }}/all.yaml
-              rules:
-                - allow: [Template]
-            - type: url
               target: https://github.com/ansible/ansible-rhdh-templates/blob/{{- include "templates.branch" . }}/seed.yaml
               rules:
                 - allow: [Template]
