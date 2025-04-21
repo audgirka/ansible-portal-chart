@@ -22,7 +22,7 @@ entries:
       charts.openshift.io/testedOpenShiftVersion: N/A
     apiVersion: v2
     appVersion: 1.5.1
-    created: "2025-04-21T16:44:51.662185+05:30"
+    created: "2025-04-21T20:19:47.322239+05:30"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -64,7 +64,7 @@ entries:
       charts.openshift.io/supportURL: https://access.redhat.com/support
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-04-21T16:44:51.653457+05:30"
+    created: "2025-04-21T20:19:47.314137+05:30"
     dependencies:
     - name: redhat-developer-hub
       repository: https://charts.openshift.io
@@ -72,7 +72,7 @@ entries:
       - redhat-developer-hub
       version: 1.5.1
     description: 'AAP Technical Preview: Self-service automation'
-    digest: 80f2486149f2ae871774ae9436d97a72aa0eaeb327a2059eec7437323bc1f4b6
+    digest: 422559e3c22842d72a45a00017cca4cd81b7fbe189077b7a8b563c4de455d926
     keywords:
     - aap
     - self-service
@@ -89,20 +89,4 @@ entries:
     urls:
     - rhaap-self-service-preview-0.1.0.tgz
     version: 0.1.0
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2025-04-21T16:44:51.672042+05:30"
-    dependencies:
-    - name: redhat-developer-hub
-      repository: https://charts.openshift.io
-      tags:
-      - redhat-developer-hub
-      version: 1.5.1
-    description: 'AAP Technical Preview: Self-service automation'
-    digest: c4af2a55a252f5e809223b14beb9d531c82fa94a25ec927591b8f4cce7702a1d
-    name: rhaap-self-service-preview
-    type: application
-    urls:
-    - docs/rhaap-self-service-preview-0.1.0.tgz
-    version: 0.1.0
-generated: "2025-04-21T16:44:51.639484+05:30"
+generated: "2025-04-21T20:19:47.304185+05:30"
