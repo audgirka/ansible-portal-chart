@@ -4,7 +4,7 @@ A Helm chart for deploying self-service automation, utilizing Red Hat Developer 
 
 ## Introduction
 
-This chart depends on the [Red Hat Developer Hub (RHDH) Backstage chart](https://github.com/redhat-developer/rhdh-chart/blob/main/charts/backstage/README.md) to deploy self-service automation using the [Helm](https://helm.sh) package manager.
+This chart deploys the AAP self-service technical preview using the Helm chart packaging format.
 
 This chart is designed for use alongside an Ansible Automation Platform (AAP) instance, so you can authenticate with AAP.
 
@@ -32,7 +32,7 @@ cd ansible-portal-chart
 
 ### Dependencies
 
-This chart depends on the productized [RHDH Backstage chart](https://github.com/redhat-developer/rhdh-chart). If installing manually, use the following command to add the productized chart repository:
+This chart depends on the productized [RHDH chart](https://github.com/redhat-developer/rhdh-chart). If installing manually, use the following command to add the needed repository:
 
 ```console
 helm repo add redhat-developer-hub https://charts.openshift.io
@@ -338,7 +338,7 @@ oc create secret generic my-installation-dynamic-plugins-registry-auth --from-fi
 | global.clusterRouterBase | Shorthand for users who do not want to specify a custom HOSTNAME. Used ONLY with the DEFAULT upstream.backstage.appConfig value and with OCP Route enabled. | string | `"apps.example.com"` |
 | global.imageTagInfo | *Development environment* - Used to specify a Quay image tag for ansible-backstage-plugins images. | string | `""` |
 | upstream.backstage.extraEnvVars | Overrides the default authentication plugin to use the Ansible dynamic auth plugin. Must be set to 'true' for the custom AAP sign in page to work. | string | `"true"` |
-| upstream.backstage.appConfig | Application configuration for the RHDH and self-service automation installation. | object | `{"ansible":"","auth":"","catalog":""}` |
+| upstream.backstage.appConfig | Application configuration for the self-service automation installation. | object | `{"ansible":"","auth":"","catalog":""}` |
 | upstream.backstage.appConfig.ansible.rhaap.baseUrl | IP address or URL to your AAP instance. | string | `"changeme"` |
 | upstream.backstage.appConfig.ansible.rhaap.baseUrl | User authentication token from the AAP instance. | string | `"changeme"` |
 | upstream.backstage.appConfig.auth.providers.rhaap.production.host | IP address or URL to your AAP instance. | string | `"changeme"` |

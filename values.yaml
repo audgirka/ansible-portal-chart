@@ -292,6 +292,6 @@ redhat-developer-hub:
             rhaap:
               '{{- include "catalog.providers.env" . }}':
                 schedule:
-                  frequency: {hours: 6}  # Update as needed for testing
+                  frequency: {hours: 6}  # Update as needed
                   timeout: {seconds: 30}
                 orgs: ['Default']

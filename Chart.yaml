@@ -8,7 +8,7 @@ maintainers:
   url: https://redhat.com
 apiVersion: v2
 name: rhaap-self-service-preview
-description: "AAP Technical Preview: Self-service automation"
+description: “A Helm chart to deploy the the AAP self-service technical preview.”
 version: 0.1.0
 dependencies:
   - name: redhat-developer-hub
@@ -18,11 +18,10 @@ dependencies:
     version: "1.5.1"
 keywords:
 - aap
+- rhaap
 - self-service
 - automation
 - ansible
-- developer-hub
-- redhat-developer-hub
 - redhat
 type: application
 appVersion: "1.0.0"
