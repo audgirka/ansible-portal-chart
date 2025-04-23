@@ -290,7 +290,7 @@ redhat-developer-hub:
                 - allow: [Template]
           providers:
             rhaap:
-              development:
+              '{{- include "catalog.providers.env" . }}':
                 schedule:
                   frequency: {hours: 6}  # Update as needed for testing
                   timeout: {seconds: 30}
