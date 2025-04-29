@@ -20,13 +20,13 @@ redhat-developer-hub:
         - package: '{{- include "plugins.load.catalog" . }}'
           disabled: false
           integrity: '{{- include "plugins.integrity.catalog" . }}'
-        - package: '{{- include "plugins.load.portal" . }}'
+        - package: '{{- include "plugins.load.self-service" . }}'
           disabled: false
-          integrity: '{{- include "plugins.integrity.portal" . }}'
+          integrity: '{{- include "plugins.integrity.self-service" . }}'
           pluginConfig:
             dynamicPlugins:
               frontend:
-                ansible.plugin-backstage-portal:
+                ansible.plugin-backstage-self-service:
                   signInPage:
                     importName: SignInPage
                   providerSettings:
@@ -39,8 +39,8 @@ redhat-developer-hub:
                   dynamicRoutes:
                     - importName: LandingPage
                       path: /
-                    - importName: PortalPage
-                      path: /portal
+                    - importName: SelfServicePage
+                      path: /self-service
                   mountPoints:
                     - mountPoint: application/listener
                       importName: LocationListener
@@ -175,7 +175,7 @@ redhat-developer-hub:
                     props:
                       title: Create...
                       icon: add
-                      to: /portal/catalog
+                      to: /self-service/catalog
 
                 - mountPoint: global.header/component
                   importName: Divider
@@ -196,12 +196,12 @@ redhat-developer-hub:
                 default.mycatalog:
                   title: Templates
                   icon: home
-                  to: /portal/catalog
+                  to: /self-service/catalog
                   priority: 120
                 default.myitem:
                   title: History
                   icon: category
-                  to: /portal/create/tasks
+                  to: /self-service/create/tasks
                   priority: 110
                 default.home:
                   title: ''

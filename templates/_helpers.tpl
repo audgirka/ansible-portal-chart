@@ -32,23 +32,23 @@
 
 {{- define "plugins.load.catalog" -}}
     {{- if .Values.global._environment._development -}}
-        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic" (include "deployment.quay-image-tag" .) -}}    
+        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic" (include "deployment.quay-image-tag" .) -}}
     {{- else if .Values.global._environment._production -}}
         {{- printf "http://plugin-registry:8080/ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic-1.0.0.tgz" -}}
     {{- end -}}
 {{- end -}}
 
-{{- define "plugins.load.portal" -}}
+{{- define "plugins.load.self-service" -}}
     {{- if .Values.global._environment._development -}}
-        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-plugin-backstage-portal" (include "deployment.quay-image-tag" .) -}}    
+        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-plugin-backstage-self-service" (include "deployment.quay-image-tag" .) -}}
     {{- else if .Values.global._environment._production -}}
-        {{- printf "http://plugin-registry:8080/ansible-plugin-backstage-portal-dynamic-1.0.0.tgz" -}}
+        {{- printf "http://plugin-registry:8080/ansible-plugin-backstage-self-service-dynamic-1.0.0.tgz" -}}
     {{- end -}}
 {{- end -}}
 
 {{- define "plugins.load.scaffolder" -}}
     {{- if .Values.global._environment._development -}}
-        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-plugin-backstage-rhaap" (include "deployment.quay-image-tag" .) -}}    
+        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic" (include "deployment.quay-image-tag" .) -}}
     {{- else if .Values.global._environment._production -}}
         {{- printf "http://plugin-registry:8080/ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic-1.3.0.tgz" -}}
     {{- end -}}
@@ -66,7 +66,7 @@
     {{- end -}}
 {{- end -}}
 
-{{- define "plugins.integrity.portal" -}}
+{{- define "plugins.integrity.self-service" -}}
     {{- if .Values.global._environment._production -}}
         {{- printf "sha512-BSN+MIohESCFSRJzSmtQzC/+IkX6Atceq8vPVO4ivIx/nUzkW9SDRJi75QTay6bGsTLPPLu9sK69/kx84OjbQw==" -}}    
     {{- end -}}
