@@ -244,11 +244,11 @@ oc create secret generic my-installation-dynamic-plugins-registry-auth --from-fi
            imageTagInfo: pr-number # Required: Update here or pass using --set
      ```
 
-- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible.rhaap` section, update the `checkSSL` value from `true` to `false`.
+- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible.rhaap` section, update the `checkSSL` value from `true` to `false`. Also, update the `appConfig.auth.providers.rhaap.production` `checkSSL` value from `true` to `false`. 
 
     Under extraEnvVars in values.yaml, add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. Make sure to add this in the `values.yaml` file, not your custom values file, as adding an entry into the extraEnvVars will override env vars in other value files. This is a known issue, with updates tracked [here](https://issues.redhat.com/browse/RHIDP-6082). 
 
-    Also, to allow users to sign in even if they are not present in the catalog, add `appConfig.dangerouslyAllowSignInWithoutUserInCatalog` and set it's value to `true`.
+    To allow users to sign in even if they are not present in the catalog, add `appConfig.dangerouslyAllowSignInWithoutUserInCatalog` and set its value to `true`.
 
      ```yaml
      # my-values.yaml
@@ -258,7 +258,20 @@ oc create secret generic my-installation-dynamic-plugins-registry-auth --from-fi
              appConfig:
                ansible:
                  rhaap:
-                   checkSSL: true
+                   checkSSL: false
+     ```
+
+     ```yaml
+     # my-values.yaml
+       redhat-developer-hub:
+         upstream:
+           backstage:
+             appConfig:
+               auth:
+                 providers:
+                   rhaap:
+                     production:
+                       checkSSL: false
      ```
 
      ```yaml

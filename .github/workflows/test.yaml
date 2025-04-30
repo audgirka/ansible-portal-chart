@@ -62,9 +62,10 @@ jobs:
         run: |
           ct lint \
             --charts . \
-            --config ct.yaml \
+            --config tests/ct.yaml \
             --debug \
             --target-branch "${{ github.event.pull_request.base.ref }}"
+
       - name: Generate KinD Config
         run: |
           cat <<EOF > /tmp/kind-config.yaml
@@ -128,21 +129,10 @@ jobs:
           ct install \
             --debug \
             --charts . \
-            --config ct.yaml \
+            --config tests/ct.yaml \
             --target-branch "${{ github.event.pull_request.base.ref }}" \
-            --helm-extra-set-args="--set redhat-developer-hub.global._environment._development=true \
-            --set redhat-developer-hub.global._environment._production=false \
-            --set redhat-developer-hub.global.host=rhdh.127.0.0.1.sslip.io \
-            --set redhat-developer-hub.route.enabled=false \
-            --set redhat-developer-hub.test.enabled=true \
-            --set redhat-developer-hub.test.image.registry=quay.io \
-            --set redhat-developer-hub.test.image.repository=curl/curl-base \
-            --set redhat-developer-hub.test.image.tag=8.11.1 \
+            --helm-extra-set-args="-f tests/test-values.yaml \
+            --timeout 500s \
             --set redhat-developer-hub.testImageCredentials.username=${{ secrets.QUAY_USERNAME }} \
             --set redhat-developer-hub.testImageCredentials.password=${{ secrets.QUAY_PASS }} \
-            --set redhat-developer-hub.upstream.backstage.image.tag=${{ matrix.version }} \
-            --set redhat-developer-hub.upstream.ingress.enabled=true \
-            --set redhat-developer-hub.upstream.postgresql.image.registry=quay.io \
-            --set redhat-developer-hub.upstream.postgresql.image.repository=fedora/postgresql-15 \
-            --set redhat-developer-hub.upstream.postgresql.image.tag=latest \
-            --set redhat-developer-hub.upstream.postgresql.primary.persistence.enabled=false"
+            --set redhat-developer-hub.upstream.backstage.image.tag=${{ matrix.version }}"

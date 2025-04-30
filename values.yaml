@@ -54,10 +54,6 @@ redhat-developer-hub:
           disabled: false
   test:
     enabled: false
-  testImageCredentials:
-    registry: quay.io
-    username: "default"
-    password: "default"
   upstream:
     nameOverride: rhaap-self-service-preview
     backstage:
@@ -154,7 +150,7 @@ redhat-developer-hub:
             rhaap:
               production:
                 host: ${AAP_HOST_URL}
-                checkSSL: false
+                checkSSL: true
                 clientId: ${OAUTH_CLIENT_ID}
                 clientSecret: ${OAUTH_CLIENT_SECRET}
                 signIn:
