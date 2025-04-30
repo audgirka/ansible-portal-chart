@@ -80,16 +80,18 @@ Follow the steps below for the installation procedure, and refer to the other se
 
 1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step.
 2. Click the "Create" button at the top of the modal dialog on the chart page.
-3. Update values as indicated in the Production ["Update values file" section](#update-values-file).
-4. Click "Create" at the bottom of the page to launch the deployment. 
+3. Create secrets as indicated in the ['Create OpenShift secrets](#create-openshift-secrets) section.
+4. Update values as indicated in the Production ["Update values file" ](#update-values-file) section.
+5. Click "Create" at the bottom of the page to launch the deployment. 
 
 ### Installing from local chart repository
 
 **Procedure**
 
 1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step, or switched to the development environment. 
-2. Update your own values file as indicated in the Production ["Update values file" section](#update-values-file) or Development ["Update values file" section](#update-values-files) sections. 
-3. Use the following command to install the chart:
+2. Create secrets as indicated in the ['Create OpenShift secrets](#create-openshift-secrets) section.
+3. Update your own values file as indicated in the Production ["Update values file" section](#update-values-file) or Development ["Update values file" section](#update-values-files) sections. 
+4. Use the following command to install the chart:
 
     ```console
     helm install <install-name> <path-to-chart> -f <your-values-file>
@@ -131,6 +133,48 @@ oc start-build plugin-registry --from-dir=$DYNAMIC_PLUGIN_ROOT_DIR --wait
 oc new-app --image-stream=plugin-registry
 ```
 
+### Create OpenShift secrets
+
+Before installing the chart, you must create a set of secrets in your OpenShift project. 
+
+In the OpenShift console, navigate to "Secrets" on the sidebar panel, and click on the blue "Create" dropdown on the page. Select the "Key/value secret" option and add the keys and values as indicated below.
+
+NOTE: The secrets must have the **exact** name and key names shown below to work properly! 
+
+**AAP authentication secrets**
+
+Create a secret named `secrets-rhaap-self-service-preview`. Add the following keys with the appropriate values to the secret:
+
+1. Key: `aap-host-url`
+
+    Value needed: AAP instance URL
+
+2. Key: `oauth-client-id`
+
+   Value needed: AAP OAuth client ID
+
+3. Key: `oauth-client-secret`
+
+   Value needed: AAP OAuth client secret value
+
+4. Key: `aap-token`
+
+   Value needed: Token for AAP user authentication
+
+**Github and Gitlab secrets**
+
+Create a secret named `secrets-scm`. Add the following key/value pairs to the secret:
+
+1. Key: `github-token`
+
+   Value needed: Github Personal Access Token (PAT)
+
+2. Key: `gitlab-token`
+
+   Value needed: Gitlab Personal Access Token (PAT)
+
+For details on generating a token and setting up integrations for Github and Gitlab, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
+
 ### Update values file
 
 **If installing from the OpenShift Helm Catalog:** Update the values shown below in the "Create Helm Release" YAML view. 
@@ -143,54 +187,7 @@ oc new-app --image-stream=plugin-registry
      # my-values.yaml
        redhat-developer-hub:
          global:
-           clusterRouterBase: apps.example.com
-     ```
-
-- Under the `appConfig.ansible.rhaap` section, update the `baseUrl` and `token` values from `"changeme"` to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             appConfig:
-               ansible:
-                 rhaap:
-                   baseUrl: "changeme"  # in the form https://<ip-or-url-to-AAP-instance>
-                   token: "changeme"
-     ```
--  Under the `appConfig.auth.providers.rhaap.production` section,update the `host`, `clientId`, and `clientSecret` values from `"changeme"` to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             appConfig:
-               auth:
-                 providers:
-                   rhaap:
-                     production:
-                       host: "changeme"
-                       clientId: "changeme"
-                       clientSecret: "changeme"
-     ```
-
--  Under the `appConfig.integrations` section, update the github and gitlab `token` values from `"changeme"` to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             appConfig:
-               integrations:
-                 github:
-                   - host: github.com
-                     token: "changeme"
-                 gitlab:
-                   - host: gitlab.com
-                     token: "changeme"
+           clusterRouterBase: apps.your.cluster.url.com
      ```
 
 ## Development Environment
@@ -235,64 +232,16 @@ oc create secret generic my-installation-dynamic-plugins-registry-auth --from-fi
      # my-values.yaml
        redhat-developer-hub:
          global:
-           clusterRouterBase: apps.example.com
+           clusterRouterBase: apps.your.cluster.url.com
      ```
 
-- Under the `appConfig.ansible.rhaap` section, update the `baseUrl` and `token` values from `"changeme"` to the IP address or URL of your AAP instance, and an authentication token from the AAP instance.
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             appConfig:
-               ansible:
-                 rhaap:
-                   baseUrl: "changeme"  # in the form https://<ip-or-url-to-AAP-instance>
-                   token: "changeme"
-     ```
-
--  Under the `appConfig.auth.providers.rhaap.production` section, update the `host`, `clientId`, and `clientSecret` values from `"changeme"` to the IP address or URL of your AAP instance, AAP OAuth application clientId, and AAP OAuth clientSecret respectively.
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             appConfig:
-               auth:
-                 providers:
-                   rhaap:
-                     production:
-                       host: "changeme"
-                       clientId: "changeme"
-                       clientSecret: "changeme"
-     ```
-
--  Under the `appConfig.integrations` section, update the github and gitlab `token` values from `"changeme"` to your respective Personal Access Token (PAT) for GitHub or GitLab. For details on generating a token and setting up integrations, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             appConfig:
-               integrations:
-                 github:
-                   - host: github.com
-                     token: "changeme"
-                 gitlab:
-                   - host: gitlab.com
-                     token: "changeme"
-     ```
-
-- Under global.imageTagInfo, you can either update the Quay image tag inside the values-dev.yaml file manually, or pass the value via the command line using `--set global.imageTagInfo=<image-tag>`.
+- Under global.imageTagInfo, you can either update the Quay image tag inside your values file, or pass the value via the command line using `--set global.imageTagInfo=<image-tag>`. This tag defaults to `main`. 
 
      ```yaml
      # my-values.yaml
        redhat-developer-hub:
          global:
-           imageTagInfo: # Required: Update here or pass using --set
+           imageTagInfo: pr-number # Required: Update here or pass using --set
      ```
 
 - **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible.rhaap` section, update the `checkSSL` value from `true` to `false`.
@@ -336,14 +285,9 @@ oc create secret generic my-installation-dynamic-plugins-registry-auth --from-fi
 | Key | Description | Type | Default |
 |-----|-------------|------|---------|
 | global.clusterRouterBase | Shorthand for users who do not want to specify a custom HOSTNAME. Used ONLY with the DEFAULT upstream.backstage.appConfig value and with OCP Route enabled. | string | `"apps.example.com"` |
-| global.imageTagInfo | *Development environment* - Used to specify a Quay image tag for ansible-backstage-plugins images. | string | `""` |
-| upstream.backstage.extraEnvVars | Overrides the default authentication plugin to use the Ansible dynamic auth plugin. Must be set to 'true' for the custom AAP sign in page to work. | string | `"true"` |
+| global.imageTagInfo | *Development environment* - Used to specify a Quay image tag for ansible-backstage-plugins images. | string | `"main"` |
+| upstream.backstage.extraEnvVars | List of additional environment variables for the deployment. | list | (See the chart) |
 | upstream.backstage.appConfig | Application configuration for the self-service automation installation. | object | `{"ansible":"","auth":"","catalog":""}` |
-| upstream.backstage.appConfig.ansible.rhaap.baseUrl | IP address or URL to your AAP instance. | string | `"changeme"` |
-| upstream.backstage.appConfig.ansible.rhaap.baseUrl | User authentication token from the AAP instance. | string | `"changeme"` |
-| upstream.backstage.appConfig.auth.providers.rhaap.production.host | IP address or URL to your AAP instance. | string | `"changeme"` |
-| upstream.backstage.appConfig.auth.providers.rhaap.production.host | AAP instance OAuth client ID.| string | `"changeme"` |
-| upstream.backstage.appConfig.auth.providers.rhaap.production.host | AAP instance OAuth client secret. | string | `"changeme"` |
 | upstream.backstage.image | RHDH image registry parameters. | object | `{"registry":"quay.io","repository":"rhdh/rhdh-hub-rhel9","tag":""1.5"}` |
 | upstream.backstage.image.registry | Registry to pull the RHDH image from. | string | `quay.io` |
 | upstream.backstage.image.repository | Repository to pull the RHDH image from. | string | `rhdh/rhdh-hub-rhel9` |

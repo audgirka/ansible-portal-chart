@@ -145,9 +145,4 @@ jobs:
             --set redhat-developer-hub.upstream.postgresql.image.registry=quay.io \
             --set redhat-developer-hub.upstream.postgresql.image.repository=fedora/postgresql-15 \
             --set redhat-developer-hub.upstream.postgresql.image.tag=latest \
-            --set redhat-developer-hub.upstream.postgresql.primary.persistence.enabled=false \
-            --set redhat-developer-hub.upstream.backstage.appConfig.ansible.rhaap.token='testToken' \
-            --set redhat-developer-hub.upstream.backstage.appConfig.ansible.rhaap.baseUrl='https://testUrl' \
-            --set redhat-developer-hub.upstream.backstage.appConfig.auth.providers.rhaap.production.host='https://testUrl' \
-            --set redhat-developer-hub.upstream.backstage.appConfig.auth.providers.rhaap.production.clientId='testClientId' \
-            --set redhat-developer-hub.upstream.backstage.appConfig.auth.providers.rhaap.production.clientSecret='testClientSecret'"
+            --set redhat-developer-hub.upstream.postgresql.primary.persistence.enabled=false"

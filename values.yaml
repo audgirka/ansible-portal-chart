@@ -1,7 +1,7 @@
 redhat-developer-hub:
   nameOverride: rhaap-self-service-preview
   global:
-    clusterRouterBase: apps.example.com
+    clusterRouterBase: apps.example.com  # Update to your OpenShift cluster host URL
     _environment:
       _development: false
       _production: true
@@ -79,6 +79,38 @@ redhat-developer-hub:
           value: "true"
         - name: SEGMENT_WRITE_KEY
           value: "uCMHvkR5n5q2v57LNXHwvTYlGV8lqFR9"
+        - name: AAP_HOST_URL
+          valueFrom:
+            secretKeyRef:
+              key: aap-host-url
+              name: secrets-rhaap-self-service-preview
+        - name: OAUTH_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              key: oauth-client-id
+              name: secrets-rhaap-self-service-preview
+        - name: OAUTH_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: oauth-client-secret
+              name: secrets-rhaap-self-service-preview
+        - name: AAP_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: aap-token
+              name: secrets-rhaap-self-service-preview
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: github-token
+              name: secrets-scm
+              optional: true
+        - name: GITLAB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: gitlab-token
+              name: secrets-scm
+              optional: true
       image:
         registry: quay.io
         repository: rhdh/rhdh-hub-rhel9
@@ -101,8 +133,8 @@ redhat-developer-hub:
         enableExperimentalRedirectFlow: true
         ansible:
           rhaap:
-            baseUrl: "changeme"
-            token: "changeme"
+            baseUrl: ${AAP_HOST_URL}
+            token: ${AAP_TOKEN}
             checkSSL: true
             showCaseLocation:
               type: file
@@ -121,20 +153,20 @@ redhat-developer-hub:
           providers:
             rhaap:
               production:
-                host: "changeme"
+                host: ${AAP_HOST_URL}
                 checkSSL: false
-                clientId: "changeme"
-                clientSecret: "changeme"
+                clientId: ${OAUTH_CLIENT_ID}
+                clientSecret: ${OAUTH_CLIENT_SECRET}
                 signIn:
                   resolvers:
                     - resolver: usernameMatchingUser
         integrations:
           github:
             - host: github.com
-              token: "changeme"
+              token: ${GITHUB_TOKEN}
           gitlab:
             - host: gitlab.com
-              token: "changeme"
+              token: ${GITLAB_TOKEN}
         permission:
           enabled: true
           rbac:
@@ -292,6 +324,6 @@ redhat-developer-hub:
             rhaap:
               '{{- include "catalog.providers.env" . }}':
                 schedule:
-                  frequency: {hours: 6}  # Update as needed
+                  frequency: {hours: 6}
                   timeout: {seconds: 30}
                 orgs: ['Default']
