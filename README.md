@@ -1,6 +1,6 @@
 # AAP Technical Preview: Self-service Automation Helm Chart
 
-A Helm chart for deploying self-service automation, utilizing Red Hat Developer Hub.
+A Helm chart for deploying self-service automation.
 
 ## Introduction
 
@@ -32,7 +32,7 @@ cd ansible-portal-chart
 
 ### Dependencies
 
-This chart depends on the productized [RHDH chart](https://github.com/redhat-developer/rhdh-chart). If installing manually, use the following command to add the needed repository:
+If installing locally, use the following command to add this chart's required dependency:
 
 ```console
 helm repo add redhat-developer-hub https://charts.openshift.io
@@ -59,15 +59,6 @@ Example output:
 Now using project "my-project" on server "https://openshift.example.com:6443".
 ```
 
-## Choose environment
-
-Before installing the chart, determine which environment to use. There are two environments: **development** and **production**. This chart defaults to using the production environment and should only be switched to development if you are testing changes to the Ansible plugins or this chart. 
-
-The production environment requires a plugin-registry set up in your OpenShift project.
-
-The development environment pulls plugin images from the [ansible-backstage-plugins Quay repository](https://quay.io/repository/ansible/ansible-backstage-plugins). The `main` tag is pulled by default. See the ["Development Environment"](#development-environment) section for configuration instructions. 
-
-
 ## Installation
 
 Follow the steps below for the installation procedure, and refer to the other sections of this README as needed before installing. 
@@ -88,9 +79,9 @@ Follow the steps below for the installation procedure, and refer to the other se
 
 **Procedure**
 
-1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step, or switched to the development environment. 
+1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step. 
 2. Create secrets as indicated in the ['Create OpenShift secrets](#create-openshift-secrets) section.
-3. Update your own values file as indicated in the Production ["Update values file" section](#update-values-file) or Development ["Update values file" section](#update-values-files) sections. 
+3. Update your own values file as indicated in the Production ["Update values file" section](#update-values-file).
 4. Use the following command to install the chart:
 
     ```console
@@ -101,6 +92,18 @@ Follow the steps below for the installation procedure, and refer to the other se
     ```console
     helm install my-installation . -f my-values.yaml
     ```
+
+### Uninstalling the chart
+
+To uninstall/delete the Helm deployment, run:
+
+```console
+helm uninstall my-installation
+```
+
+This command removes all the Kubernetes components associated with the chart and deletes the release. 
+
+Releases can also be deleted in the OpenShift console, from the Helm -> Helm Releases page. 
 
 
 ## Production environment
@@ -121,9 +124,7 @@ Set an environment variable `DYNAMIC_PLUGIN_ROOT_DIR` to represent the directory
 export DYNAMIC_PLUGIN_ROOT_DIR=/path/to/<ansible-backstage-plugins-local-dir-changeme>
 ```
 
-To use the **upstream** plugins, download the plugin .tar and .integrity files from the [ansible-backstage-plugins repo's GitHub release page](https://github.com/ansible/ansible-backstage-plugins/releases) to the `DYNAMIC_PLUGIN_ROOT_DIR` path.
-
-To use the **downstream** plugins, download the the latest .tar file for the plugins from the [Red Hat Ansible Automation Platform Product Software downloads page](https://access.redhat.com/downloads/content/480/ver=2.5/rhel---9/2.5/x86_64/product-software) to the `DYNAMIC_PLUGIN_ROOT_DIR` path. The format of the filename is ansible-backstage-rhaap-bundle-x.y.z.tar.gz. Substitute the Ansible plugins release version, for example 1.0.0, for x.y.z. Extract the contents inside the directory and run `ls` to ensure the plugin .tar and integrity files are present.
+Download the the latest .tar file for the plugins from the [Red Hat Ansible Automation Platform Product Software downloads page](https://access.redhat.com/downloads/content/480/ver=2.5/rhel---9/2.5/x86_64/product-software) to the `DYNAMIC_PLUGIN_ROOT_DIR` path. The format of the filename is ansible-backstage-rhaap-bundle-x.y.z.tar.gz. Substitute the Ansible plugins release version, for example 1.0.0, for x.y.z. Extract the contents inside the directory and run `ls` to ensure the plugin .tar and integrity files are present.
 
 Next, create an httpd service as part of your OpenShift project. Ensure you're using the correct OpenShift project before deploying the service (verify using `oc projects`).
 
@@ -159,7 +160,7 @@ Create a secret named `secrets-rhaap-self-service-preview`. Add the following ke
 
 4. Key: `aap-token`
 
-   Value needed: Token for AAP user authentication
+   Value needed: Token for AAP user authentication (must have `write` access)
 
 **Github and Gitlab secrets**
 
@@ -187,110 +188,7 @@ For details on generating a token and setting up integrations for Github and Git
      # my-values.yaml
        redhat-developer-hub:
          global:
-           clusterRouterBase: apps.your.cluster.url.com
-     ```
-
-## Development Environment
-
-In the development environment, plugin images are pulled from a private Quay repository. This repository stores images built from pull request changes on the [ansible-backstage-plugins repository](https://github.com/ansible/ansible-backstage-plugins/tree/main).
-
-### Create secret to access private Quay repository
-
-Ensure your podman/docker credentials are stored in an auth.json file. Next, use the below command to add a secret to your OpenShift environment using the auth file.
-
-```console
-oc create secret generic <install-name>-dynamic-plugins-registry-auth --from-file=<path-to-auth.json>
-```
-
-Example:
-```console
-oc create secret generic my-installation-dynamic-plugins-registry-auth --from-file=<path-to-auth.json>
-```
-
-**Note:** The secret must have this exact name pattern in order to work correctly.
-
-### Update values files
-
-**If installing from the OpenShift Helm Catalog:** Update the values shown below in the "Create Helm Release" YAML view. 
-
-**If installing locally from chart source:** Create your own values.yaml file and populate the keys below. 
-
-- Update the `global._environment._production` key to `false`, and the `global._environment._development` key to `true`.
- 
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         global:
-           _environment:
-             _production: false
-             _development: true
-     ```
-
-- To get proper connection between frontend and backend of Backstage, update the clusterRouteBase key value to your cluster host URL:
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         global:
-           clusterRouterBase: apps.your.cluster.url.com
-     ```
-
-- Under global.imageTagInfo, you can either update the Quay image tag inside your values file, or pass the value via the command line using `--set global.imageTagInfo=<image-tag>`. This tag defaults to `main`. 
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         global:
-           imageTagInfo: pr-number # Required: Update here or pass using --set
-     ```
-
-- **Optional**: If you are using a development environment where you need to disable SSL checks, under the `appConfig.ansible.rhaap` section, update the `checkSSL` value from `true` to `false`. Also, update the `appConfig.auth.providers.rhaap.production` `checkSSL` value from `true` to `false`. 
-
-    Under extraEnvVars in values.yaml, add the environment variable `NODE_TLS_REJECT_UNAUTHORIZED` with `value: '0'`. Make sure to add this in the `values.yaml` file, not your custom values file, as adding an entry into the extraEnvVars will override env vars in other value files. This is a known issue, with updates tracked [here](https://issues.redhat.com/browse/RHIDP-6082). 
-
-    To allow users to sign in even if they are not present in the catalog, add `appConfig.dangerouslyAllowSignInWithoutUserInCatalog` and set its value to `true`.
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             appConfig:
-               ansible:
-                 rhaap:
-                   checkSSL: false
-     ```
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             appConfig:
-               auth:
-                 providers:
-                   rhaap:
-                     production:
-                       checkSSL: false
-     ```
-
-     ```yaml
-     # values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             extraEnvVars:
-               - name: NODE_TLS_REJECT_UNAUTHORIZED
-                 value: '0'
-     ```
-
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         upstream:
-           backstage:
-             appConfig:
-               dangerouslyAllowSignInWithoutUserInCatalog: true
+           clusterRouterBase: apps.example.com
      ```
 
 ## Chart Values List
@@ -298,36 +196,10 @@ oc create secret generic my-installation-dynamic-plugins-registry-auth --from-fi
 | Key | Description | Type | Default |
 |-----|-------------|------|---------|
 | global.clusterRouterBase | Shorthand for users who do not want to specify a custom HOSTNAME. Used ONLY with the DEFAULT upstream.backstage.appConfig value and with OCP Route enabled. | string | `"apps.example.com"` |
-| global.imageTagInfo | *Development environment* - Used to specify a Quay image tag for ansible-backstage-plugins images. | string | `"main"` |
+| global.imageTagInfo | The image tag for ansible-backstage-plugins images. | string | `"main"` |
 | upstream.backstage.extraEnvVars | List of additional environment variables for the deployment. | list | (See the chart) |
 | upstream.backstage.appConfig | Application configuration for the self-service automation installation. | object | `{"ansible":"","auth":"","catalog":""}` |
-| upstream.backstage.image | RHDH image registry parameters. | object | `{"registry":"quay.io","repository":"rhdh/rhdh-hub-rhel9","tag":""1.5"}` |
-| upstream.backstage.image.registry | Registry to pull the RHDH image from. | string | `quay.io` |
+| upstream.backstage.image | RHDH image registry parameters. | object | `{"registry":"registry.redhat.io","repository":"rhdh/rhdh-hub-rhel9","tag":""1.5.1"}` |
+| upstream.backstage.image.registry | Registry to pull the RHDH image from. | string | `registry.redhat.io` |
 | upstream.backstage.image.repository | Repository to pull the RHDH image from. | string | `rhdh/rhdh-hub-rhel9` |
-| upstream.backstage.image.repository | RHDH image tag. | string | `1.5` |
-
-## Contributing
-
-For contributions to this chart, utilize the production or development environment as needed for testing.
-
-### Pull Requests
-
-If you want to submit code changes to this project, here are some guidelines:
-
-1. **Create a branch - not from a fork.**
-
-    Our PR test workflows utilize Github secrets, which are only accessible on branches of this repository, not from forks. If you receive an error during tests related to Quay authentication, verify that the PR was not opened from a fork.
-
-2. **Implement your changes**
-
-    If you make changes to required values that users must update before deployment, document this in the **"Values"** section above.
-
-3. **Testing and Linting**
-
-    You can use the `helm lint` command to test if your changes pass the linting check.
-
-    For "local" testing, try deploying the helm chart with the development and production environments to your own OpenShift cluster.
-
-4. **Open a pull request**
-
-    Open a PR to automatically run our test workflows. Provide a clear description of the changes, including any Jira tickets or Github issues associated with the work. Provide an example of how to test your changes, if relevant.
+| upstream.backstage.image.repository | RHDH image tag. | string | `1.5.1` |
