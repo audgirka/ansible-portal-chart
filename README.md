@@ -8,6 +8,8 @@ This chart deploys the AAP self-service technical preview using the Helm chart p
 
 This chart is designed for use alongside an Ansible Automation Platform (AAP) instance, so you can authenticate with AAP.
 
+The telemetry data collection feature is enabled by default. For more information, see the [Telemetry capturing](#telemetry-capturing) section. 
+
 ## Prerequisites
 
 - Kubernetes 1.25+ (OpenShift 4.12+)
@@ -190,6 +192,18 @@ For details on generating a token and setting up integrations for Github and Git
          global:
            clusterRouterBase: apps.example.com
      ```
+
+## Telemetry capturing
+
+The telemetry data collection feature helps in collecting and analyzing the telemetry data to improve your experience with self-service technical preview. This feature is enabled by default.
+
+Red Hat collects and analyses the following data:
+
+- Events of page visits and clicks on links or buttons.
+- System-related information, for example, locale, timezone, user agent including browser and OS details.
+- Page-related information, for example, title, category, extension name, URL, path, referrer, and search parameters.
+- Anonymized IP addresses, recorded as 0.0.0.0.
+- Anonymized username hashes, which are unique identifiers used solely to identify the number of unique users of the application.
 
 ## Chart Values List
 
