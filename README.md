@@ -184,14 +184,13 @@ For details on generating a token and setting up integrations for Github and Git
 
 **If installing locally from chart source:** Create your own values.yaml file and populate the keys below.
 
-- To get proper connection between frontend and backend of Backstage, update the clusterRouteBase key to match your cluster host URL:
+To get proper connection between frontend and backend of Backstage, update the clusterRouteBase key to match your cluster host URL:
 
-     ```yaml
-     # my-values.yaml
-       redhat-developer-hub:
-         global:
-           clusterRouterBase: apps.example.com
-     ```
+```yaml
+redhat-developer-hub:
+global:
+    clusterRouterBase: apps.example.com
+```
 
 ## Telemetry capturing
 
