@@ -108,9 +108,9 @@ redhat-developer-hub:
               name: secrets-scm
               optional: true
       image:
-        registry: quay.io
+        registry: registry.redhat.io
         repository: rhdh/rhdh-hub-rhel9
-        tag: "1.5"
+        tag: "1.5.1"
       extraContainers:
         - command:
             - adt

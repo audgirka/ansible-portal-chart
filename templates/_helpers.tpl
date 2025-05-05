@@ -22,6 +22,10 @@
     {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (index .Values "redhat-developer-hub" "testImageCredentials" "registry") (printf "%s:%s" (index .Values "redhat-developer-hub" "testImageCredentials" "username") (index .Values "redhat-developer-hub" "testImageCredentials" "password") | b64enc) | b64enc }}
 {{- end }}
 
+{{- define "deployment.test.registryCredentials" }}
+    {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" (index .Values "redhat-developer-hub" "registryCredentials" "registry") (printf "%s:%s" (index .Values "redhat-developer-hub" "registryCredentials" "username") (index .Values "redhat-developer-hub" "registryCredentials" "password") | b64enc) | b64enc }}
+{{- end }}
+
 {{- define "plugins.load.auth" -}}
     {{- if .Values.global._environment._development -}}
         {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic" (include "deployment.quay-image-tag" .) -}}    

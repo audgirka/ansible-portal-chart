@@ -135,4 +135,6 @@ jobs:
             --timeout 500s \
             --set redhat-developer-hub.testImageCredentials.username=${{ secrets.QUAY_USERNAME }} \
             --set redhat-developer-hub.testImageCredentials.password=${{ secrets.QUAY_PASS }} \
+            --set redhat-developer-hub.registryCredentials.username=${{ secrets.RH_REGISTRY_USERNAME }} \
+            --set redhat-developer-hub.registryCredentials.password=${{ secrets.RH_REGISTRY_PASSWORD }} \
             --set redhat-developer-hub.upstream.backstage.image.tag=${{ matrix.version }}"

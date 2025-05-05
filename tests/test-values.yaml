@@ -1,6 +1,7 @@
 # Values required for `ct install` in test.yaml workflow
 redhat-developer-hub:
   global:
+    imagePullSecrets: [rh-registry-auth]
     _environment:
       _development: true
       _production: false
@@ -17,6 +18,10 @@ redhat-developer-hub:
     registry: quay.io
     username: "default"
     password: "default"
+  registryCredentials:
+    registry: registry.redhat.io
+    username: "default"
+    password: "default"
   upstream:
     ingress:
       enabled: true
@@ -29,6 +34,8 @@ redhat-developer-hub:
         persistence:
           enabled: false
     backstage:
+      image:
+        pullSecrets: [rh-registry-auth]
       appConfig:
         ansible:
           rhaap:
