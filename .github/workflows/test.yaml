@@ -125,6 +125,8 @@ jobs:
           ./install-olm.sh "${OLM_VERSION}"
 
       - name: Run chart-testing
+        env: 
+          REGISTRY: "${{ matrix.experimental && 'quay.io' || 'registry.redhat.io' }}"
         run: |
           ct install \
             --debug \
@@ -137,4 +139,5 @@ jobs:
             --set redhat-developer-hub.testImageCredentials.password=${{ secrets.QUAY_PASS }} \
             --set redhat-developer-hub.registryCredentials.username=${{ secrets.RH_REGISTRY_USERNAME }} \
             --set redhat-developer-hub.registryCredentials.password=${{ secrets.RH_REGISTRY_PASSWORD }} \
-            --set redhat-developer-hub.upstream.backstage.image.tag=${{ matrix.version }}"
+            --set redhat-developer-hub.upstream.backstage.image.tag=${{ matrix.version }} \
+            --set redhat-developer-hub.upstream.backstage.image.registry=${{ env.REGISTRY }}"
