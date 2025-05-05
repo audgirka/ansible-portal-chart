@@ -30,7 +30,7 @@
     {{- if .Values.global._environment._development -}}
         {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic" (include "deployment.quay-image-tag" .) -}}    
     {{- else if .Values.global._environment._production -}}
-        {{- printf "http://plugin-registry:8080/ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic-1.4.0.tgz" -}}
+        {{- printf "http://plugin-registry:8080/ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic-1.5.0.tgz" -}}
     {{- end -}}
 {{- end -}}
 
@@ -38,7 +38,7 @@
     {{- if .Values.global._environment._development -}}
         {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic" (include "deployment.quay-image-tag" .) -}}
     {{- else if .Values.global._environment._production -}}
-        {{- printf "http://plugin-registry:8080/ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic-1.4.0.tgz" -}}
+        {{- printf "http://plugin-registry:8080/ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic-1.5.0.tgz" -}}
     {{- end -}}
 {{- end -}}
 
@@ -46,7 +46,7 @@
     {{- if .Values.global._environment._development -}}
         {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-plugin-backstage-self-service" (include "deployment.quay-image-tag" .) -}}
     {{- else if .Values.global._environment._production -}}
-        {{- printf "http://plugin-registry:8080/ansible-plugin-backstage-self-service-dynamic-1.4.0.tgz" -}}
+        {{- printf "http://plugin-registry:8080/ansible-plugin-backstage-self-service-dynamic-1.5.0.tgz" -}}
     {{- end -}}
 {{- end -}}
 
@@ -54,31 +54,31 @@
     {{- if .Values.global._environment._development -}}
         {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic" (include "deployment.quay-image-tag" .) -}}
     {{- else if .Values.global._environment._production -}}
-        {{- printf "http://plugin-registry:8080/ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic-1.4.0.tgz" -}}
+        {{- printf "http://plugin-registry:8080/ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic-1.5.0.tgz" -}}
     {{- end -}}
 {{- end -}}
 
 {{- define "plugins.integrity.auth" -}}
     {{- if .Values.global._environment._production -}}
-        {{- printf "sha512-uZBSEJAJZd74+VuAUdsiKuCL6GY6EgVdDyxa0NzgiNsYDKQKCvcPtr3Deyw8gxdvnQW5dppl7vCFxlfhdOPO/g==" -}}
+        {{- printf "sha512-h+s6pxr1gL7DPl1+bBxzYkmx4nGHY0zHgNr4jtBNgrhVkI75UHup3CICc1560xxMq6uYcUnkwubM0YOfVsAqeA==" -}}
     {{- end -}}
 {{- end -}}
 
 {{- define "plugins.integrity.catalog" -}}
     {{- if .Values.global._environment._production -}}
-        {{- printf "sha512-TdmN9P7kIJs5AP0y03ER0wC3Urj6Y0/qPzIBeBUym7MTm6fjLAp6s6TZOiDm5SwUW+KT8V7FyadrsPDnWvlzFA==" -}}    
+        {{- printf "sha512-1gP6riit1IfcRJHlRyLenfC+QAUXuHmrmepTZ5S1JDlNSzSV2++WviuYhjQANZKHHkZfijhY5mXMhz4MTVHQnQ==" -}}    
     {{- end -}}
 {{- end -}}
 
 {{- define "plugins.integrity.self-service" -}}
     {{- if .Values.global._environment._production -}}
-        {{- printf "sha512-wO3WLQm69ssomXiSI5c06NHgcIM0a2UxbH+HDHcKqlnILjfjQCWAj+uWHANRoE7+MYpqdBpCXez2T8GmQxCWEg==" -}}    
+        {{- printf "sha512-Oph6PeckgNgCQZOgJ3uz11KGhBSx0hcA9kYUBlqHwbiXg9y4rVtyyNfAfYvP2d8GMRIAJfOcbgV47kMwsMThCA==" -}}    
     {{- end -}}
 {{- end -}}
 
 {{- define "plugins.integrity.scaffolder" -}}
     {{- if .Values.global._environment._production -}}
-        {{- printf "sha512-XjV8HiZCQkjq8nmhF2L0JmQWUWRDRWdWdNnVGNvv1V/K7g5jQtXCXc+uZV4XMshqTuHR+FqjKDFk7aWi6RwNtg==" -}}    
+        {{- printf "sha512-PMLit2Wm9GeHP46pcdYkPs2PG4/z39+hPTBSawIiURyow+Ks4/efsCsSg1IuOLDlHE0lF+FZoQl+YcfTVE2PDA==" -}}    
     {{- end -}}
 {{- end -}}
 

@@ -322,4 +322,4 @@ redhat-developer-hub:
                 schedule:
                   frequency: {minutes: 60}
                   timeout: {seconds: 30}
-                orgs: ['Default']
+                orgs: Default
