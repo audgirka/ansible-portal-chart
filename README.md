@@ -71,8 +71,8 @@ Follow the steps below for the installation procedure, and refer to the other se
 
 1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step.
 2. Click the "Create" button at the top of the modal dialog on the chart page.
-3. Create secrets as indicated in the ['Create OpenShift secrets](#create-openshift-secrets) section.
-4. Update values as indicated in the Production ["Update values file" ](#update-values-file) section.
+3. Create secrets as indicated in the ["Create OpenShift secrets"](#create-openshift-secrets) section.
+4. Update values as indicated in the Production ["Update values file"](#update-values-file) section.
 5. Click "Create" at the bottom of the page to launch the deployment. 
 
 ### Installing from local chart repository
@@ -80,8 +80,8 @@ Follow the steps below for the installation procedure, and refer to the other se
 **Procedure**
 
 1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step. 
-2. Create secrets as indicated in the ['Create OpenShift secrets](#create-openshift-secrets) section.
-3. Update your own values file as indicated in the Production ["Update values file" section](#update-values-file).
+2. Create secrets as indicated in the ["Create OpenShift secrets"](#create-openshift-secrets) section.
+3. Update your own values file as indicated in the Production ["Update values file"](#update-values-file) section.
 4. Use the following command to install the chart:
 
     ```console

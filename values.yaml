@@ -320,6 +320,6 @@ redhat-developer-hub:
             rhaap:
               '{{- include "catalog.providers.env" . }}':
                 schedule:
-                  frequency: {hours: 6}
+                  frequency: {minutes: 60}
                   timeout: {seconds: 30}
                 orgs: ['Default']
