@@ -1,6 +1,7 @@
 # Values required for `ct install` in test.yaml workflow
 redhat-developer-hub:
   global:
+    clusterRouterBase: apps.testing.com
     imagePullSecrets: [rh-registry-auth]
     _environment:
       _development: true

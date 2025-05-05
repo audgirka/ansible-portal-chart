@@ -2,24 +2,8 @@
     Validates required values
 */}}
 
-{{- if eq (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "ansible" "rhaap" "token") "changeme" -}}
-{{- fail "ansible.rhaap.token is required" -}}
-{{- end -}}
-
-{{- if eq (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "ansible" "rhaap" "baseUrl") "changeme" -}}
-{{- fail "ansible.rhaap.baseUrl is required" -}}
-{{- end -}}
-
-{{- if eq (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "auth" "providers" "rhaap" "production" "host") "changeme" -}}
-{{- fail "auth.providers.rhaap.production.host is required" -}}
-{{- end -}}
-
-{{- if eq (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "auth" "providers" "rhaap" "production" "clientId") "changeme" -}}
-{{- fail "auth.providers.rhaap.production.clientId is required" -}}
-{{- end -}}
-
-{{- if eq (index .Values "redhat-developer-hub" "upstream" "backstage" "appConfig" "auth" "providers" "rhaap" "production" "clientSecret") "changeme" -}}
-{{- fail "auth.providers.rhaap.production.clientSecret is required" -}}
+{{- if eq (index .Values "redhat-developer-hub" "global" "clusterRouterBase") "apps.example.com" -}}
+{{- fail "Set the clusterRouterBase value to your cluster host base URL." -}}
 {{- end -}}
 
 {{- if not (or
