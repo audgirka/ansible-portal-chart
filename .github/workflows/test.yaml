@@ -49,7 +49,7 @@ jobs:
           python-version: 3.13
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@0d28d3144d3a25ea2cc349d6e59901c4ff469b3b # v2.7.0
+        uses: alisonlhart/chart-testing-action@1.0.0 # v2.7.0
 
       - name: Add dependencies
         run: |
@@ -132,6 +132,7 @@ jobs:
             --debug \
             --charts . \
             --config tests/ct.yaml \
+            --release-name "rhaap-self-service-preview" \
             --target-branch "${{ github.event.pull_request.base.ref }}" \
             --helm-extra-set-args="-f tests/test-values.yaml \
             --timeout 500s \
