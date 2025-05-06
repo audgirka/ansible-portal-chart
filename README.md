@@ -4,19 +4,9 @@ A Helm chart for deploying self-service automation.
 
 ## Introduction
 
-This chart deploys the AAP self-service technical preview using the Helm chart packaging format.
-
-This chart is designed for use alongside an Ansible Automation Platform (AAP) instance, so you can authenticate with AAP.
+This chart deploys the AAP self-service technical preview using the Helm chart packaging format. This chart is designed for use alongside an Ansible Automation Platform (AAP) instance, so you can authenticate with AAP.
 
 The telemetry data collection feature is enabled by default. For more information, see the [Telemetry capturing](#telemetry-capturing) section. 
-
-## Prerequisites
-
-- Kubernetes 1.25+ (OpenShift 4.12+)
-- Helm 3.10+ or [latest release](https://github.com/helm/helm/releases)
-- `PersistentVolume` provisioner support in the underlying infrastructure is available.
-- [Backstage container image](https://backstage.io/docs/deployment/docker)
-- A plugin registry containing the required plugins is deployed in the OpenShift environment (see [this section](#create-plugin-registry) for details)
 
 ## Usage
 
@@ -25,94 +15,53 @@ This chart is available in the following formats:
 - [OpenShift Helm Catalog](https://docs.redhat.com/en/documentation/openshift_container_platform)
 - [Chart Repository](https://helm.sh/docs/topics/chart_repository/)
 
-To fetch the chart from the source repository, run:
+## Installing from OpenShift Helm Catalog
 
-```console
-git clone https://github.com/ansible-automation-platform/ansible-portal-chart.git
-cd ansible-portal-chart
-```
+**Note:** The install name must be unique for each deployment to avoid conflicts with existing releases. If a release with the same name already exists, the installation will fail.
 
-### Dependencies
+### Prerequisites
 
-If installing locally, use the following command to add this chart's required dependency:
+The following prerequisites are needed before installation:
 
-```console
-helm repo add redhat-developer-hub https://charts.openshift.io
-helm dependency update
-```
+- Kubernetes 1.25+ (OpenShift 4.12+)
+- Helm 3.10+ or [latest release](https://github.com/helm/helm/releases)
+- `PersistentVolume` provisioner support in the underlying infrastructure is available
+- [Backstage container image](https://backstage.io/docs/deployment/docker)
+- A plugin registry containing the required plugins deployed in the OpenShift environment (see the [Create plugin registry](#create-plugin-registry) section below for details)
+- Secrets containing AAP authentication values and SCM tokens created as shown in the [Create OpenShift secrets](#create-openshift-secrets) section below.
 
-### Install and log into OpenShift CLI
+### Procedure
 
-To deploy a plugin registry or the helm chart from your local environment, follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#installing-openshift-cli) for installing OpenShift CLI (`oc`) locally, then follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-logging-in_cli-developer-commands) to log in.
+1. Ensure you have completed all prerequistes listed above. 
+2. Click the "Create" button at the top of the modal dialog on the chart page.
+3. Update the values shown below in the "Create Helm Release" YAML view. 
+    - To get proper connection between frontend and backend of Backstage, update the `clusterRouterBase` key to match your cluster host URL:
+
+        ```yaml
+        redhat-developer-hub:
+        global:
+            clusterRouterBase: apps.example.com
+        ```
+
+4. Click "Create" at the bottom of the page to launch the deployment. 
+
+## Create plugin registry
+
+### Log into OpenShift CLI
+
+To deploy a plugin registry or to manually install the Helm chart, follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#installing-openshift-cli) for installing OpenShift CLI (`oc`) locally, then follow the [instructions](https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-logging-in_cli-developer-commands) to log in.
 
 Use the following command to create a new OpenShift project:
-
 ```console
 oc new-project <project-name>
 ```
 
-Example:
+Or, switch to an existing project with the following command:
 ```console
-oc new-project my-project
+oc project <project-name>
 ```
 
-Example output:
-```
-Now using project "my-project" on server "https://openshift.example.com:6443".
-```
-
-## Installation
-
-Follow the steps below for the installation procedure, and refer to the other sections of this README as needed before installing. 
-
-**Note:** The install name must be unique for each deployment to avoid conflicts with existing releases. If a release with the same name already exists, the installation will fail.
-
-### Installing from OpenShift Helm Catalog
-
-**Procedure**
-
-1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step.
-2. Click the "Create" button at the top of the modal dialog on the chart page.
-3. Create secrets as indicated in the ["Create OpenShift secrets"](#create-openshift-secrets) section.
-4. Update values as indicated in the Production ["Update values file"](#update-values-file) section.
-5. Click "Create" at the bottom of the page to launch the deployment. 
-
-### Installing from local chart repository
-
-**Procedure**
-
-1. Ensure you have already completed the ["Create plugin registry"](#create-plugin-registry) step. 
-2. Create secrets as indicated in the ["Create OpenShift secrets"](#create-openshift-secrets) section.
-3. Update your own values file as indicated in the Production ["Update values file"](#update-values-file) section.
-4. Use the following command to install the chart:
-
-    ```console
-    helm install <install-name> <path-to-chart> -f <your-values-file>
-    ```
-
-    Example:
-    ```console
-    helm install my-installation . -f my-values.yaml
-    ```
-
-### Uninstalling the chart
-
-To uninstall/delete the Helm deployment, run:
-
-```console
-helm uninstall my-installation
-```
-
-This command removes all the Kubernetes components associated with the chart and deletes the release. 
-
-Releases can also be deleted in the OpenShift console, from the Helm -> Helm Releases page. 
-
-
-## Production environment
-
-In the production environment, plugins are loaded from a plugin registry in your OpenShift project. You must create the plugin registry in the project before using the helm chart.
-
-### Create plugin registry
+### Download plugins and push to the registry
 
 First, create a local directory to store the plugin .tar files.
 
@@ -136,15 +85,15 @@ oc start-build plugin-registry --from-dir=$DYNAMIC_PLUGIN_ROOT_DIR --wait
 oc new-app --image-stream=plugin-registry
 ```
 
-### Create OpenShift secrets
+## Create OpenShift secrets
 
 Before installing the chart, you must create a set of secrets in your OpenShift project. 
 
-In the OpenShift console, navigate to "Secrets" on the sidebar panel, and click on the blue "Create" dropdown on the page. Select the "Key/value secret" option and add the keys and values as indicated below.
+In the OpenShift console, ensure your project is selected. Navigate to "Secrets" on the sidebar panel, and click on the blue "Create" dropdown on the page. Select the "Key/value secret" option and add the keys and values as indicated below.
 
 NOTE: The secrets must have the **exact** name and key names shown below to work properly! 
 
-**AAP authentication secrets**
+### AAP authentication secrets
 
 Create a secret named `secrets-rhaap-self-service-preview`. Add the following keys with the appropriate values to the secret:
 
@@ -164,7 +113,7 @@ Create a secret named `secrets-rhaap-self-service-preview`. Add the following ke
 
    Value needed: Token for AAP user authentication (must have `write` access)
 
-**Github and Gitlab secrets**
+### Github and Gitlab secrets
 
 Create a secret named `secrets-scm`. Add the following key/value pairs to the secret:
 
@@ -178,19 +127,58 @@ Create a secret named `secrets-scm`. Add the following key/value pairs to the se
 
 For details on generating a token and setting up integrations for Github and Gitlab, refer to [GitHub Integration Guide](https://backstage.io/docs/integrations/github/locations#configuration) or [GitLab Integration Guide](https://backstage.io/docs/integrations/gitlab/locations).
 
-### Update values file
+## Manual Installation from the chart repository
 
-**If installing from the OpenShift Helm Catalog:** Update the values shown below in the "Create Helm Release" YAML view. 
+### Prerequisites
 
-**If installing locally from chart source:** Create your own values.yaml file and populate the keys below.
+- See the [Installation prerequisites](#installation-prerequisites) section above
+- Log into OpenShift CLI and create a new project (see the [Log into OpenShift CLI](#log-into-openshift-cli) section)
 
-To get proper connection between frontend and backend of Backstage, update the clusterRouteBase key to match your cluster host URL:
+**Procedure**
 
-```yaml
-redhat-developer-hub:
-global:
-    clusterRouterBase: apps.example.com
+1. Ensure you have completed all prerequisites.
+2. Create your own values.yaml file and populate the keys below.
+
+    - To get proper connection between frontend and backend of Backstage, update the clusterRouterBase key to match your cluster host URL:
+
+        ```yaml
+        redhat-developer-hub:
+        global:
+            clusterRouterBase: apps.example.com
+        ```
+3. Add the chart repository using the following command:
+
+    ```console
+    helm repo add openshift-helm-charts https://charts.openshift.io/
+    ```
+
+4. Install the chart:
+
+    ```console
+    helm install <release-name> openshift-helm-charts/redhat-rhaap-self-service-preview -f <your-values-file>
+    ```
+
+    Example:
+    ```console
+    helm install my-release openshift-helm-charts/redhat-rhaap-self-service-preview -f my-values.yaml
+    ```
+
+## Uninstalling the chart
+
+To uninstall/delete the Helm deployment, run:
+
+```console
+helm uninstall <release-name>
 ```
+
+Example:
+```console
+helm uninstall my-release
+```
+
+This command removes all the Kubernetes components associated with the chart and deletes the release. 
+
+Releases can also be deleted in the OpenShift console, from the Helm -> Helm Releases page. 
 
 ## Telemetry capturing
 
