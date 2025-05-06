@@ -143,7 +143,7 @@ For details on generating a token and setting up integrations for Github and Git
 
         ```yaml
         redhat-developer-hub:
-        global:
+          global:
             clusterRouterBase: apps.example.com
         ```
 3. Add the chart repository using the following command:
