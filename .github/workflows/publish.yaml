@@ -27,7 +27,7 @@ jobs:
     - name: Run release script
       env:
         RELEASE_TAG: ${{ github.event.release.tag_name }}
-        GH_TOKEN: ${{ secrets.GH_PAT_AUTH }}
+        GH_TOKEN: ${{ secrets.GH_PAT_BOT_AUTH }}
 
       run: |
         chmod +x build/build-and-publish.sh

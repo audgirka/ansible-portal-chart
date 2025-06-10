@@ -80,8 +80,8 @@ else
 fi
 
 # TODO: Change user to service account
-git config --global user.email "alhart@redhat.com"
-git config --global user.name "alisonlhart"
+git config --global user.email "aap-portal-bot-admins@redhat.com"
+git config --global user.name "aap-portal-bot"
 git config --global push.default matching
 git config --global pull.rebase false
 
@@ -92,7 +92,7 @@ git pull origin main >/dev/null
 git pull origin >/dev/null
 
 # Get chart repository fork and commit changes
-git remote add alisonlhart https://x-access-token:"${GH_TOKEN}"@github.com/alisonlhart/charts.git
+git remote add aap-portal-bot https://x-access-token:"${GH_TOKEN}"@github.com/aap-portal-bot/charts.git
 
 git checkout origin/main -b "release-${CHART_VERSION}" >/dev/null 2>&1 || true
 git checkout "release-${CHART_VERSION}" >/dev/null 2>&1 || true
@@ -103,19 +103,19 @@ git commit --no-gpg-sign -s -m "${COMMIT_MSG}" "${CHART_VERSION}"
 
 # Delete branch (if it exists)
 echo "Delete branch (if it exists)"
-if [[ $(git ls-remote --heads https://github.com/alisonlhart/charts.git "refs/heads/release-${CHART_VERSION}") ]]; then
-    git push alisonlhart --delete "release-${CHART_VERSION}"
+if [[ $(git ls-remote --heads https://github.com/aap-portal-bot/charts.git "refs/heads/release-${CHART_VERSION}") ]]; then
+    git push aap-portal-bot --delete "release-${CHART_VERSION}"
 fi
 
 # Create new branch
 echo "Create new branch"
-git push alisonlhart release-"${CHART_VERSION}" >/dev/null 2>&1
+git push aap-portal-bot release-"${CHART_VERSION}" >/dev/null 2>&1
 
 # Create PR
-echo "[INFO] Create PR https://github.com/openshift-helm-charts/charts/compare/main...alisonlhart:charts:release-${CHART_VERSION}?expand=1 ..."
+echo "[INFO] Create PR https://github.com/openshift-helm-charts/charts/compare/main...aap-portal-bot:charts:release-${CHART_VERSION}?expand=1 ..."
 
 gh repo set-default openshift-helm-charts/charts
-gh pr create -t "${COMMIT_MSG}" -b "${COMMIT_MSG}" --base main --head alisonlhart:release-"${CHART_VERSION}"
+gh pr create -t "${COMMIT_MSG}" -b "${COMMIT_MSG}" --base main --head aap-portal-bot:release-"${CHART_VERSION}"
 
 popd >/dev/null || exit 1
 rm -fr /tmp/openshift-helm-charts-main
