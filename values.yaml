@@ -135,11 +135,6 @@ redhat-developer-hub:
             showCaseLocation:
               type: file
               target: '/tmp/aap-showcases/'
-            schedule:
-              frequency:
-                seconds: 120
-              timeout:
-                seconds: 5
           creatorService:
             baseUrl: '127.0.0.1'
             port: '8000'
@@ -307,19 +302,19 @@ redhat-developer-hub:
           rules:
             - allow:
                 [Component, System, Group, Resource, Location, Template, API, Users]
-          locations:
-            - type: url
-              target: https://github.com/ansible/ansible-rhdh-templates/blob/{{- include "templates.branch" . }}/seed.yaml
-              rules:
-                - allow: [Template]
-            - type: file
-              target: /tmp/aap-showcases/all.yaml
-              rules:
-                - allow: [Template]
           providers:
             rhaap:
               '{{- include "catalog.providers.env" . }}':
-                schedule:
-                  frequency: {minutes: 60}
-                  timeout: {seconds: 30}
                 orgs: Default
+                sync:
+                  orgsUsersTeams:
+                    schedule:
+                      frequency: {minutes: 60}
+                      timeout: {seconds: 30}
+                  jobTemplates:
+                    enabled: true
+                    # labels?: []
+                    # surveyEnabled?: false
+                    schedule:
+                      frequency: {minutes: 60}
+                      timeout: {seconds: 30}

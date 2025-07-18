@@ -82,14 +82,6 @@
     {{- end -}}
 {{- end -}}
 
-{{- define "templates.branch" -}}
-    {{- if .Values.global._environment._development -}}
-        {{- printf "devel" -}}
-    {{- else if .Values.global._environment._production -}}
-        {{- printf "main" -}}
-    {{- end -}}
-{{- end -}}
-
 {{- define "catalog.providers.env" -}}
     {{- if .Values.global._environment._development -}}
         {{- printf "development" -}}
