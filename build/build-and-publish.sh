@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 CHART_VERSION="" # Developer Hub version (used as 'appVersion' in Chart.yaml and as image tag)
-CHART_NAME="redhat-rhaap-self-service-preview"
+CHART_NAME="redhat-rhaap-portal"
 
 # Check that appVersion key matches what's in the helper. TODO: Remove this section when plugin images are used. 
 PACKAGED_PLUGIN_VERSION=$(grep -o 'ansible-backstage-plugin-auth[^ ]*-[0-9.]\+\.tgz' templates/_helpers.tpl | sed -E 's/.*-([0-9.]+)\.tgz/\1/')
@@ -32,7 +32,7 @@ fi
 
 # Check that release tag matches version key
 CHART_VERSION=$(yq -r '.version' Chart.yaml)
-ADJUSTED_RELEASE_TAG=${RELEASE_TAG#redhat-rhaap-self-service-preview-}
+ADJUSTED_RELEASE_TAG=${RELEASE_TAG#redhat-rhaap-portal-}
 
 if [[ "$CHART_VERSION" == "$ADJUSTED_RELEASE_TAG" ]]; then
     echo "Chart version matches release tag value."
@@ -98,7 +98,7 @@ git checkout origin/main -b "release-${CHART_VERSION}" >/dev/null 2>&1 || true
 git checkout "release-${CHART_VERSION}" >/dev/null 2>&1 || true
 git add "${CHART_VERSION}"
 
-COMMIT_MSG="Chart Release: rhaap-self-service-preview ${CHART_VERSION}"
+COMMIT_MSG="Chart Release: redhat-rhaap-portal ${CHART_VERSION}"
 git commit --no-gpg-sign -s -m "${COMMIT_MSG}" "${CHART_VERSION}"
 
 # Delete branch (if it exists)

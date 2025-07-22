@@ -132,7 +132,7 @@ jobs:
             --debug \
             --charts . \
             --config tests/ct.yaml \
-            --release-name "rhaap-self-service-preview" \
+            --release-name "rhaap-portal" \
             --target-branch "${{ github.event.pull_request.base.ref }}" \
             --helm-extra-set-args="-f tests/test-values.yaml \
             --timeout 500s \

@@ -28,7 +28,7 @@
 
 {{- define "plugins.load.auth" -}}
     {{- if .Values.global._environment._development -}}
-        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic" (include "deployment.quay-image-tag" .) -}}    
+        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-backstage-plugin-auth-backend-module-rhaap-provider" (include "deployment.quay-image-tag" .) -}}    
     {{- else if .Values.global._environment._production -}}
         {{- printf "http://plugin-registry:8080/ansible-backstage-plugin-auth-backend-module-rhaap-provider-dynamic-1.5.0.tgz" -}}
     {{- end -}}
@@ -36,7 +36,7 @@
 
 {{- define "plugins.load.catalog" -}}
     {{- if .Values.global._environment._development -}}
-        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic" (include "deployment.quay-image-tag" .) -}}
+        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-backstage-plugin-catalog-backend-module-rhaap" (include "deployment.quay-image-tag" .) -}}
     {{- else if .Values.global._environment._production -}}
         {{- printf "http://plugin-registry:8080/ansible-backstage-plugin-catalog-backend-module-rhaap-dynamic-1.5.0.tgz" -}}
     {{- end -}}
@@ -52,7 +52,7 @@
 
 {{- define "plugins.load.scaffolder" -}}
     {{- if .Values.global._environment._development -}}
-        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic" (include "deployment.quay-image-tag" .) -}}
+        {{- printf "oci://quay.io/ansible/ansible-backstage-plugins:%s!ansible-plugin-scaffolder-backend-module-backstage-rhaap" (include "deployment.quay-image-tag" .) -}}
     {{- else if .Values.global._environment._production -}}
         {{- printf "http://plugin-registry:8080/ansible-plugin-scaffolder-backend-module-backstage-rhaap-dynamic-1.5.0.tgz" -}}
     {{- end -}}

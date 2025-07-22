@@ -1,10 +1,10 @@
-# AAP Technical Preview: Self-service Automation Helm Chart
+# Automation Portal Helm Chart
 
-A Helm chart for deploying self-service automation.
+A Helm chart for deploying automation portal.
 
 ## Introduction
 
-This chart deploys the AAP self-service technical preview using the Helm chart packaging format. This chart is designed for use alongside an Ansible Automation Platform (AAP) instance, so you can authenticate with AAP.
+This chart deploys automation portal using the Helm chart packaging format. This chart is designed for use alongside an Ansible Automation Platform (AAP) instance, so you can authenticate with AAP.
 
 The telemetry data collection feature is enabled by default. For more information, see the [Telemetry capturing](#telemetry-capturing) section. 
 
@@ -95,7 +95,7 @@ NOTE: The secrets must have the **exact** name and key names shown below to work
 
 ### AAP authentication secrets
 
-Create a secret named `secrets-rhaap-self-service-preview`. Add the following keys with the appropriate values to the secret:
+Create a secret named `secrets-rhaap-portal`. Add the following keys with the appropriate values to the secret:
 
 1. Key: `aap-host-url`
 
@@ -155,12 +155,12 @@ For details on generating a token and setting up integrations for Github and Git
 4. Install the chart:
 
     ```console
-    helm install <release-name> openshift-helm-charts/redhat-rhaap-self-service-preview -f <your-values-file>
+    helm install <release-name> openshift-helm-charts/redhat-rhaap-portal -f <your-values-file>
     ```
 
     Example:
     ```console
-    helm install my-release openshift-helm-charts/redhat-rhaap-self-service-preview -f my-values.yaml
+    helm install my-release openshift-helm-charts/redhat-rhaap-portal -f my-values.yaml
     ```
 
 ## Uninstalling the chart
@@ -182,7 +182,7 @@ Releases can also be deleted in the OpenShift console, from the Helm -> Helm Rel
 
 ## Telemetry capturing
 
-The telemetry data collection feature helps in collecting and analyzing the telemetry data to improve your experience with self-service technical preview. This feature is enabled by default.
+The telemetry data collection feature helps in collecting and analyzing the telemetry data to improve your experience with Automation Portal. This feature is enabled by default.
 
 Red Hat collects and analyses the following data:
 
