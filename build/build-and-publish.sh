@@ -32,7 +32,7 @@ fi
 
 # Check that release tag matches version key
 CHART_VERSION=$(yq -r '.version' Chart.yaml)
-ADJUSTED_RELEASE_TAG=${RELEASE_TAG#redhat-rhaap-portal-}
+ADJUSTED_RELEASE_TAG=${RELEASE_TAG#v}
 
 if [[ "$CHART_VERSION" == "$ADJUSTED_RELEASE_TAG" ]]; then
     echo "Chart version matches release tag value."
