@@ -16,7 +16,7 @@ dependencies:
     repository: https://charts.openshift.io
     tags:
       - redhat-developer-hub
-    version: "1.6.3"
+    version: "1.7.0"
 keywords:
 - aap
 - rhaap
