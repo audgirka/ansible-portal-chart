@@ -1,0 +1,10 @@
+apiVersion: helm.openshift.io/v1beta1
+kind: HelmChartRepository
+metadata:
+  name: ansible-portal-chart-repo
+  namespace: openshift-config
+spec:
+  connectionConfig:
+    url: https://ansible-automation-platform.github.io/ansible-portal-chart/
+  name: Ansible Portal Chart Repository
+  description: Helm charts for Ansible Automation Portal
