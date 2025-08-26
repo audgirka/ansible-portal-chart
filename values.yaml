@@ -1,7 +1,7 @@
 redhat-developer-hub:
     nameOverride: rhaap-portal
     global:
-      clusterRouterBase: apps.ansible-rhdh-dev.testing.ansible.com # Update to your OpenShift cluster host URL
+      clusterRouterBase: apps.example.com # Update to your OpenShift cluster host URL
       _environment:
         _development: false
         _production: true
@@ -10,9 +10,6 @@ redhat-developer-hub:
         plugins:
           - package: ./dynamic-plugins/dist/backstage-community-plugin-rbac
             disabled: false
-          # Disable marketplace plugin to prevent stream errors
-          - package: "./dynamic-plugins/dist/red-hat-developer-hub-backstage-plugin-catalog-backend-module-marketplace"
-            disabled: true
           - package: '{{- include "plugins.load.scaffolder" . }}'
             disabled: false
             integrity: '{{- include "plugins.integrity.scaffolder" . }}'
