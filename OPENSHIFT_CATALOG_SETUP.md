@@ -27,12 +27,9 @@ This guide explains how to add your private Helm chart repository to OpenShift's
    generated: "2024-01-01T00:00:00Z"
    ```
 
-### Option B: Automated Setup (Recommended)
-1. Copy the `.github/workflows/helm-release.yml` file to your repository
-2. Push to main branch - this will automatically:
-   - Package your Helm chart
-   - Update the repository index
-   - Deploy to gh-pages branch
+### Option B: Automated Setup (Using Existing Workflow)
+The repository already has a `publish.yaml` workflow that handles Helm chart releases.
+Since gh-pages is already configured, you can use the existing Helm repository without creating a new release.
 
 ## Step 3: Add Repository to OpenShift
 
@@ -115,8 +112,9 @@ After setup, you'll have these key files:
 - **`helm-chart-repository.yaml`** - For public repository access
 - **`helm-chart-repository-with-secret.yaml`** - For private repository access (recommended)
 - **`create-github-secret.sh`** - Script to create GitHub credentials secret
-- **`.github/workflows/helm-release.yml`** - Automated Helm repository management
 - **`OPENSHIFT_CATALOG_SETUP.md`** - This setup guide
+
+Note: The repository uses the existing `publish.yaml` workflow for releases.
 
 ## Repository URL Structure
 
