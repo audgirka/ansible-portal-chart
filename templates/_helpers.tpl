@@ -60,25 +60,25 @@
 
 {{- define "plugins.integrity.auth" -}}
     {{- if .Values.global._environment._production -}}
-        {{- printf "sha512-SeRm5aFsDbL0j4Z7Rpj5xjLHDAs8gT+F4zHc+aaXwRGOGagy2NW3IxN2HPQq2HWqo09ZVIuROzqJxRi+QzTPPQ==" -}}
+        {{- printf "sha512-TTKNP7XkEOa1pnfZPAG+2oWTyesk2OlwY28MhwktqSPP4akNnWO/NZ0OVU2m3IyhEmWD7OC9z0ZASWabH4uKtw==" -}}
     {{- end -}}
 {{- end -}}
 
 {{- define "plugins.integrity.catalog" -}}
     {{- if .Values.global._environment._production -}}
-        {{- printf "sha512-M1aTRLle/KAyi8Aq4p+4q4tbnSsp2Ms9i0BB+aTZdbMsqwKeLZ7c0nPGMVQ9qXQ53uwY78CxEaus/uL4Xj6EbQ==" -}}    
+        {{- printf "sha512-4T04L7FXaI/LxCYllN8GsG1MmHBQDAke/Bc3OGwMtgLaYFSLLmbVkuWKffoTUPRPw0f55kXgXsOZ3eBFZjy2vg==" -}}    
     {{- end -}}
 {{- end -}}
 
 {{- define "plugins.integrity.self-service" -}}
     {{- if .Values.global._environment._production -}}
-        {{- printf "sha512-1JBxUJikEtxiZa7Phh4wcF8s5JRWSY9/85FkgBLYaQtjEU7bgK+5bQG+8Qr0t0IGEbt65d36wQUz6JBqo47A4Q==" -}}    
+        {{- printf "sha512-Dgi+NW83epY8Hyni0BUh9sWGglUi2gW8MnOnJU0ftgAjY1VE5TOVYjxXMd49qRYXxB7Aif/d629/cTbKIKbZDA==" -}}    
     {{- end -}}
 {{- end -}}
 
 {{- define "plugins.integrity.scaffolder" -}}
     {{- if .Values.global._environment._production -}}
-        {{- printf "sha512-0Z/mSHJescwId7ZJqo9hqaAoBM2aRf61De3gq80WsUt0xB87sSxSm+NfZfICE1IiUJo8m5/d5KqD+VIDCMKuRw==" -}}    
+        {{- printf "sha512-/6AO3iDHYeIhpQoau+Td9lRocKrSmeT5PQTdklSIbmFgXS5oxl1ganDeVZcSx2DlILuwCFvV4zP750cwa8jKqQ==" -}}    
     {{- end -}}
 {{- end -}}
 
